@@ -1,0 +1,8 @@
+#!/bin/sh
+
+WALLPAPERS="$HOME/Pictures/Wallpapers"
+ALIST=( `ls -w1 $WALLPAPERS` )
+RANGE=${#ALIST[*]}
+FIRST=$(( $RANDOM % $RANGE ))
+SECOND=$(( $RANDOM % $RANGE ))
+feh --bg-scale $WALLPAPERS/${ALIST[$FIRST]} $WALLPAPERS/${ALIST[$SECOND]}
