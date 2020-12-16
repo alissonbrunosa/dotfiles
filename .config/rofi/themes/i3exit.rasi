@@ -1,0 +1,11 @@
+@import "shared/popup.rasi"
+
+#window {
+  padding: @option-3-window-padding;
+}
+
+#listview {
+  spacing: @option-3-listview-spacing;
+  lines: 3;
+}
+

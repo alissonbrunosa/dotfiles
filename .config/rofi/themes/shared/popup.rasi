@@ -1,0 +1,6 @@
+@import "colorschemes/dark-steel-blue.rasi"
+
+#window {
+  width: 30%;
+  height: 20%;
+}
