@@ -1,0 +1,6 @@
+xscreensaver -nosplash &
+
+setxkbmap -option 'caps:swapescape'
+
+i3
+
