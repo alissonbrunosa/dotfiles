@@ -1,4 +1,6 @@
 call plug#begin()
+Plug 'arcticicestudio/nord-vim', { 'tag': 'v0.15.0' }
+Plug 'rakr/vim-one'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
@@ -13,7 +15,6 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'alissonbrunosa/vim-wdirs', { 'do': './install' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
 syntax on
@@ -65,7 +66,6 @@ map <A-a>q <C-w>q
 
 if has("terminal")
   map <Leader>tt :terminal ++close<cr>
-  tnoremap <Esc> <C-W>N
 endif
 
 if has('gui_running')
@@ -75,6 +75,12 @@ if has('gui_running')
   set guioptions-=L  "remove left hand scroll bar
   set guioptions-=b  "remove bottom scroll bar
   set guioptions-=m  "remove bottom menu bar
+endif
+
+if has("termguicolors")
+  let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
 endif
 
 " Ruby
@@ -114,7 +120,5 @@ let g:prettier#autoformat = 0
 let g:airline_theme='nord'
 
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml PrettierAsync
-
-command -bang -nargs=* -complete=dir Gems call wdirs#dirs('bundle list --paths', 'Gems')
 
 let g:discovery_path = "/home/alisson/code"
