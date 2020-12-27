@@ -24,6 +24,11 @@ font:
     y: 0
 use_thin_strokes: true
 
+shell:
+  program: zsh
+  args:
+    - --login
+
 schemes:
   one: &dark
     # Default colors

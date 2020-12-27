@@ -1,8 +1,8 @@
 call plug#begin()
 Plug 'arcticicestudio/nord-vim', { 'tag': 'v0.15.0' }
 Plug 'rakr/vim-one'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
@@ -53,8 +53,8 @@ let g:mapleader = ' '
 
 nnoremap <silent><leader>b :Buffers<CR>
 nnoremap <silent><leader>o :Files<CR>
-nnoremap <silent> <leader>c :bd<CR>
-nnoremap <silent> <leader>w :up<CR>
+nnoremap <silent><leader>c :bd<CR>
+nnoremap <silent><leader>w :up<CR>
 nnoremap <silent><leader>f :BLines<CR>
 nnoremap <silent><leader>d :Wdirs<CR>
 
@@ -120,5 +120,6 @@ let g:prettier#autoformat = 0
 let g:airline_theme='nord'
 
 autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml PrettierAsync
+au WinEnter * :vertical resize 140
 
 let g:discovery_path = "/home/alisson/code"

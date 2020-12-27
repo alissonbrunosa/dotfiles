@@ -1,3 +1,5 @@
+[[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
+
 xscreensaver -nosplash &
 
 setxkbmap -option 'caps:swapescape'
