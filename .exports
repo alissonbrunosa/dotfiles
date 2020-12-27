@@ -1,0 +1,31 @@
+export EDITOR="vim"
+
+# PATH
+export PATH="$PATH:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.rbenv/bin"
+export PATH="$PATH:$GOPATH/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
+
+# Go
+export GOPATH="$HOME/code/go"
+
+# K8s
+export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/development_config:$KUBECONFIG
+
+# Fzf
+export FZF_DEFAULT_COMMAND="rg --files"
+
+# History
+# http://unix.stackexchange.com/a/48113
+export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+export HISTSIZE=100000                   # big big history
+export HISTFILESIZE=100000               # big big history
+
+# Save and reload the history after each command finishes
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
+export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
+
+
+# Settings
+# export TZ="Europe/Berlin"
