@@ -1,6 +1,6 @@
 configuration {
   show-icons:         true;
-  icon-theme:         "candy-icons";
+  icon-theme:         "Flatery";
   cycle:              true;
   hide-scrollbar:     true;
   disable-history:    false;

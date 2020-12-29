@@ -11,7 +11,6 @@ if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -n "$DISPLAY" ] && [[ -o 
 fi
 
 
-eval "$(rbenv init -)"
-eval "$(dircolors ~/.dir_colors)"
+source $HOME/.aliases
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
