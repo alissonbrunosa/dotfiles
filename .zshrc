@@ -4,16 +4,14 @@ ZSH_THEME="af-magic"
 plugins=(git autojump docker docker-compose)
 source $ZSH/oh-my-zsh.sh
 
-# Aliases
-alias vim="vimx"
-alias zshconfig="vim ~/.zshrc"
-alias ohmyzsh="vim ~/.oh-my-zsh"
-alias python="python3"
-alias commit='git commit -m "$(curl -s whatthecommit.com/index.txt)"'
-
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
-source $HOME/.exports
+if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -n "$DISPLAY" ] && [[ -o  interactive ]]; then
+    tmux new -A -s Main
+fi
+
 
 eval "$(rbenv init -)"
+eval "$(dircolors ~/.dir_colors)"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

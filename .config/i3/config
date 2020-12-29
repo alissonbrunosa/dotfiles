@@ -156,7 +156,7 @@ assign [class="vlc"] $ws6
 assign [class="Telegram"] $ws10
 
 # lock screen
-bindsym $mod+l exec xscreensaver-command -lock
+bindsym $mod+Control+l exec xscreensaver-command -lock
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
