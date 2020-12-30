@@ -95,7 +95,7 @@ reverse-scroll = false
 label-focused = %name%
 label-focused-foreground = ${colors.foreground}
 label-focused-background = ${colors.background}
-label-focused-underline = ${colors.foreground}
+label-focused-underline = ${colors.color6}
 label-focused-padding = 2
 
 label-unfocused = %name%
@@ -147,7 +147,7 @@ label-padding = 2
 type = internal/pulseaudio
 
 format-volume = <ramp-volume> <label-volume>
-label-volume = %percentage:2:2%%
+label-volume = %percentage:3:3%%
 format-volume-foreground = ${colors.foreground}
 use-ui-max = false
 interval = 5
