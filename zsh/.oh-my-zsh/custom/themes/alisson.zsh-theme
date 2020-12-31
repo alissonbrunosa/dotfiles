@@ -41,7 +41,7 @@ function prompt_setup() {
             && upstream=" -> ${upstream}"
           fi
 
-          git_info="${bar}[${nord14}${ref}${upstream}${nord12}$(parse_git_dirty)${nord3}]${nord8}"
+          git_info="${bar}[${nord14}${ref}${upstream}${nord12}$(parse_git_dirty)${nord3}]"
         fi
 
         local dashes="${nord3}${(l.$(dashes)..-.)}"
