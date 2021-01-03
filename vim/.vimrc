@@ -1,5 +1,4 @@
 call plug#begin()
-Plug 'arcticicestudio/nord-vim', { 'tag': 'v0.15.0' }
 Plug 'rakr/vim-one'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -15,6 +14,7 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'alissonbrunosa/vim-wdirs', { 'do': './install' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'arcticicestudio/nord-vim', { 'tag': 'v0.15.0' }
 call plug#end()
 
 syntax on

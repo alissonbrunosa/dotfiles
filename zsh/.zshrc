@@ -2,7 +2,8 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="alisson"
 
-plugins=(git autojump docker docker-compose)
+plugins=(git autojump)
+
 source $ZSH/oh-my-zsh.sh
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
