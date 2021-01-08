@@ -31,7 +31,7 @@ set $base0F "#fcc09e"
 # is used in the bar {} block below.
 font pango:JetBrains Mono 10
 
-for_window [class="^.*"] border pixel 1
+for_window [class="^.*"] border pixel 0
 for_window [class="^.*"] focus
 new_window none
 hide_edge_borders both
@@ -110,16 +110,16 @@ bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:"
-set $ws2 "2:"
-set $ws3 "3:"
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
 set $ws4 "4"
-set $ws5 "5:"
-set $ws6 "6:"
+set $ws5 "5"
+set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
-set $ws9 "9:"
-set $ws10 "10:"
+set $ws9 "9"
+set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -153,6 +153,8 @@ assign [class="Firefox"] $ws3
 assign [class="Brave"] $ws3
 assign [class="Nautilus"] $ws5
 assign [class="vlc"] $ws6
+assign [class="Stremio"] $ws6
+assign [class="^Spotify*"] $ws9
 assign [class="Telegram"] $ws10
 
 # lock screen
@@ -222,4 +224,4 @@ bindsym $mod+o mode "launcher"
 bindsym $mod+m mode "move"
 
 exec_always wallpaper
-exec_always --no-startup-id polybar-launch
+# exec_always --no-startup-id polybar-launch

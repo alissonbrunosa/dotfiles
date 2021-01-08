@@ -1,8 +1,8 @@
+[[ -n "$(command -v xsetroot)" ]] && xsetroot -cursor_name left_ptr
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
 
 xscreensaver -nosplash &
 
 setxkbmap -option 'caps:swapescape'
 
-i3
-
+exec bspwm

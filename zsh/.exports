@@ -1,13 +1,31 @@
+#!/usr/bin/env sh
+
 export EDITOR="vim"
 
 # Go
 export GOPATH="$HOME/code/go"
 
 # PATH
-export PATH="$PATH:$HOME/.local/bin"
-export PATH="$PATH:$HOME/.rbenv/bin"
-export PATH="$PATH:$GOPATH/bin"
-export PATH="$PATH:$HOME/.cargo/bin"
+smart_export () {
+    case ":${PATH}:" in
+        *:"$1":*)
+           echo "Already added" && return 0
+           ;;
+        *)
+            if [ "$2" = "after" ] ; then
+                export PATH=$PATH:$1
+            else
+                export PATH=$1:$PATH
+            fi
+    esac
+}
+
+smart_export "/usr/local/bin"      after
+smart_export "$HOME/.local/bin"    after
+smart_export "$HOME/.rbenv/bin"    after
+smart_export "$GOPATH/bin"         after
+smart_export "$HOME/.cargo/bin"    after
+smart_export "$HOME/spicetify-cli" after
 
 # K8s
 export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/development_config:$KUBECONFIG
@@ -25,3 +43,5 @@ export HISTFILESIZE=100000               # big big history
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
+
+unset -f smart_export

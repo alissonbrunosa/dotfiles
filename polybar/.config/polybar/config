@@ -1,28 +1,13 @@
 [colors]
-;My colors are set from .Xresources to match everything else
-background= ${xrdb:background}
-foreground= ${xrdb:foreground}
-color0	= ${xrdb:color0}
-color1	= ${xrdb:color1}
-color2	= ${xrdb:color2}
-color3	= ${xrdb:color3}
-color4	= ${xrdb:color4}
-color5	= ${xrdb:color5}
-color6	= ${xrdb:color6}
-color7	= ${xrdb:color7}
-color8	= ${xrdb:color8}
-color9	= ${xrdb:color9}
-color10	= ${xrdb:color10}
-color11	= ${xrdb:color11}
-color12	= ${xrdb:color12}
-color13	= ${xrdb:color13}
-color14	= ${xrdb:color14}
-color15	= ${xrdb:color15}
+background = #FFFFFF
+foreground = #000000
 
-[bar/example]
+[bar/main]
 monitor = ${env:MONITOR:HDMI-1}
-width = 100%
-height = 26
+width = 99%
+offset-x = 0.5%
+offset-y = 0.5%
+height = 30
 radius = 0.0
 fixed-center = true
 
@@ -32,36 +17,33 @@ foreground = ${colors.foreground}
 line-size = 3
 line-color = #F00
 
-border-size = 0
+border-size = 1
+border-color = ${colors.foreground}
 
 padding-left = 0
 padding-right = 1
 
-module-margin-left = 1
-module-margin-right = 2
+module-margin-left = 0
+module-margin-right = 0
 
-font-0 = JetBrains Mono:pixelsize=11:style=Bold;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-3 = FontAwesome5Free:style=Solid:size=11;1
-font-2 = FontAwesome5Free:style=Regular:size=11;1
-font-4 = FontAwesome5Brands:style=Regular:size=11;1
-font-5 = IPAGothic:size=12:antialias=true;3
+font-0 = "Fantasque Sans Mono:pixelsize=11;2"
+font-1 = "Iosevka Nerd Font:style=Medium:pixelsize=11;2"
 
 dpi = 100
 
-modules-left = i3
-modules-center = date
+modules-left = date
+modules-center = workspaces
 modules-right = pulseaudio wlan battery
 
-tray-position = right
-tray-padding = 2
+;tray-position = right
+;tray-padding = 2
 bottom = false
-;tray-background = #0063ff
+;tray-background = #000
 
-;wm-restack = bspwm
+wm-restack = bspwm
 ;wm-restack = i3
 
-;override-redirect = true
+override-redirect = false
 
 ;scroll-up = bspwm-desknext
 ;scroll-down = bspwm-deskprev
@@ -79,36 +61,35 @@ label = %title:0:30:...%
 ; Separator in between workspaces
 ; label-separator = |
 
-[module/i3]
-type = internal/i3
-format = <label-state> <label-mode>
-format-padding = 1
-format-foreground = ${colors.foreground}
-index-sort = true
-wrapping-scroll = false
-strip-wsnumbers = true
-
+[module/workspaces]
+type = internal/xworkspaces
+pin-workspaces = true
 enable-click = true
-reverse-scroll = false
+enable-scroll = true
 
-label-focused = %name%
-label-focused-padding = 2
-label-focused-foreground = ${colors.foreground}
-label-focused-background = ${colors.background}
-label-focused-underline = ${colors.color6}
+icon-0 = 1;
+icon-1 = 2;
+icon-2 = 3;
+icon-3 = 4;
+icon-4 = 5;
+icon-default = 
 
-label-unfocused = %name%
-label-unfocused-padding = 2
-label-unfocused-background = ${colors.background}
-label-unfocused-foreground = ${colors.foreground}
+format = <label-state>
+format-padding = 1
 
-label-visible = %name%
-label-visible-padding = 2
+label-monitor = %name%
 
-label-urgent = %name%
-label-urgent-foreground = ${colors.foreground}
-label-urgent-background = ${colors.color1}
-label-urgent-padding = 2
+label-active = 
+label-active-padding = 1
+
+label-occupied = 
+label-occupied-padding = 1
+
+label-urgent = 
+label-urgent-padding = 1
+
+label-empty = 
+label-empty-padding = 1
 
 [module/wlan]
 type = internal/network
@@ -116,10 +97,16 @@ interface = wlp2s0
 interval = 3.0
 
 format-connected =  <label-connected>
+format-connected-padding = 1
+
+format-disconnected = <label-disconnected>
+format-disconnected-padding = 1
+
+format-background = ${colors.background}
+
 label-connected = %essid%
 label-connected-color1 = ${colors.foreground}
 
-format-disconnected = <label-disconnected>
 label-disconnected = %ifname% disconnected
 label-disconnected-color1 = ${colors.foreground}
 
@@ -132,30 +119,36 @@ ramp-signal-color1 = ${colors.foreground}
 
 [module/date]
 type = internal/date
-interval = 10
-format-padding = 3
+interval = 1.0
 
-time = "%H:%M"
-date = "%A %d %b"
+time = " %I:%M %p"
+time-alt = " %a, %d %b %Y"
 
-label = %date%, %time%
-label-padding = 2
+format = <label>
+format-foreground = ${colors.foreground}
+format-padding = 1
+
+label = %time%
 
 [module/pulseaudio]
 type = internal/pulseaudio
-
-format-volume = <ramp-volume> <label-volume>
 label-volume = %percentage:3:3%%
-format-volume-foreground = ${colors.foreground}
 use-ui-max = false
 interval = 5
 
-ramp-volume-0 = ""
-ramp-volume-1 = ""
-ramp-volume-2 = ""
+format-volume = <ramp-volume> <label-volume>
+format-volume-padding = 1
 
-label-muted = " muted"
-label-muted-foreground = ${colors.foreground}
+format-muted-prefix = 婢
+
+ramp-volume-0 = "婢"
+ramp-volume-1 = ""
+ramp-volume-2 = ""
+ramp-volume-3 = ""
+ramp-volume-4 = ""
+ramp-volume-5 = ""
+
+label-muted = " muted"
 
 [module/battery]
 type = internal/battery
@@ -164,32 +157,46 @@ adapter = AC
 full-at = 98
 
 format-charging = <animation-charging> <label-charging>
+format-charging-padding = 1
+
 format-discharging = <animation-discharging> <label-discharging>
+format-discharging-padding = 1
 
-format-full-prefix = " "
-format-full-prefix-foreground = ${colors.foreground}
+format-full-prefix = " "
 
-ramp-capacity-0 = ""
-ramp-capacity-1 = ""
-ramp-capacity-2 = ""
-ramp-capacity-3 = ""
-ramp-capacity-4 = ""
-ramp-capacity-foreground = ${colors.foreground}
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+ramp-capacity-5 = 
+ramp-capacity-6 = 
+ramp-capacity-7 = 
+ramp-capacity-8 = 
+ramp-capacity-9 = 
 
-animation-charging-0 = ""
-animation-charging-1 = ""
-animation-charging-2 = ""
-animation-charging-3 = ""
-animation-charging-4 = ""
-animation-charging-foreground = ${colors.foreground}
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-5 = 
+animation-charging-6 = 
+animation-charging-7 = 
+animation-charging-8 = 
+animation-charging-9 = 
 animation-charging-framerate = 750
 
-animation-discharging-0 = ""
-animation-discharging-1 = ""
-animation-discharging-2 = ""
-animation-discharging-3 = ""
-animation-discharging-4 = ""
-animation-discharging-foreground = ${colors.foreground}
+animation-discharging-0 = 
+animation-discharging-1 = 
+animation-discharging-2 = 
+animation-discharging-3 = 
+animation-discharging-4 = 
+animation-discharging-5 = 
+animation-discharging-6 = 
+animation-discharging-7 = 
+animation-discharging-8 = 
+animation-discharging-9 = 
 animation-discharging-framerate = 750
 
 [settings]

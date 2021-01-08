@@ -1,6 +1,6 @@
 #!/bin/sh
 
-WALLPAPERS="$HOME/Pictures/Wallpapers"
+WALLPAPERS="$HOME/Pictures/Wallpapers/others"
 ALIST=( `ls -w1 $WALLPAPERS` )
 RANGE=${#ALIST[*]}
 FIRST=$(( $RANDOM % $RANGE ))
