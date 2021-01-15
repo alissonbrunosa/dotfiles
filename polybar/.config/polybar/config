@@ -40,7 +40,7 @@ modules-right = pulseaudio wlan battery
 bottom = false
 ;tray-background = #000
 
-wm-restack = bspwm
+;wm-restack = bspwm
 ;wm-restack = i3
 
 override-redirect = false
