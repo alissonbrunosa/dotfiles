@@ -1,14 +1,19 @@
 import XMonad
 import System.Exit
 import Data.Ratio -- this makes the '%' operator available (optional)
+
+import XMonad.Actions.UpdatePointer
+
 import XMonad.Layout.Grid
 import XMonad.Layout.Spiral
 import XMonad.Layout.Spacing
 import XMonad.Layout.ToggleLayouts
+
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageHelpers
+
 import Control.Monad (liftM2)
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
@@ -37,25 +42,25 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_n     ), refresh)
 
     -- Move focus to the next window
-    , ((modm,               xK_Tab   ), windows W.focusDown)
+    , ((modm,               xK_Tab   ), windows W.focusDown  )
 
     -- Move focus to the next window
-    , ((modm,               xK_j     ), windows W.focusDown)
+    , ((modm,               xK_j     ), windows W.focusDown  )
 
     -- Move focus to the previous window
-    , ((modm,               xK_k     ), windows W.focusUp  )
+    , ((modm,               xK_k     ), windows W.focusUp    )
 
     -- Move focus to the master window
-    , ((modm,               xK_m     ), windows W.focusMaster  )
+    , ((modm,               xK_m     ), windows W.focusMaster)
 
     -- Swap the focused window and the master window
-    , ((modm .|. shiftMask, xK_Return), windows W.swapMaster)
+    , ((modm .|. shiftMask, xK_Return), windows W.swapMaster )
 
     -- Swap the focused window with the next window
-    , ((modm .|. shiftMask, xK_j     ), windows W.swapDown  )
+    , ((modm .|. shiftMask, xK_j     ), windows W.swapDown   )
 
     -- Swap the focused window with the previous window
-    , ((modm .|. shiftMask, xK_k     ), windows W.swapUp    )
+    , ((modm .|. shiftMask, xK_k     ), windows W.swapUp     )
 
     -- Shrink the master area
     , ((modm,               xK_h     ), sendMessage Shrink)
@@ -79,10 +84,10 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
 
     -- Quit xmonad
-    , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
+    , ((modm .|. shiftMask, xK_q                    ), io (exitWith ExitSuccess))
 
     -- Restart xmonad
-    , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
+    , ((modm              , xK_q                    ), spawn "xmonad --recompile; xmonad --restart")
     , ((0                 , xF86XK_AudioMute        ), spawn "volumectl mute")
     , ((0                 , xF86XK_AudioRaiseVolume ), spawn "volumectl plus")
     , ((0                 , xF86XK_AudioLowerVolume ), spawn "volumectl minus")
@@ -93,8 +98,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     ]
     ++
 
-    --
-    -- mod-[1..9], Switch to workspace N
     --
     -- mod-[1..9], Switch to workspace N
     -- mod-shift-[1..9], Move client to workspace N
@@ -113,7 +116,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 -- Layouts
-gaps = spacingRaw False (Border 5 5 5 5) True (Border 5 5 5 5) True
+gaps = spacingRaw False (Border 3 3 3 3) True (Border 3 3 3 3) True
 toggleFullLayout = toggleLayouts Full
 myLayouts = avoidStruts $ gaps $ toggleFullLayout $ layoutTall ||| layoutSpiral ||| layoutGrid ||| layoutMirror ||| layoutFull
     where
@@ -147,7 +150,7 @@ main = xmonad $ ewmh $ docks myConfig
 myConfig = def
       { terminal            = "alacritty"
       , modMask             = mod4Mask
-      , borderWidth         = 3
+      , borderWidth         = 1
       , normalBorderColor   = "#d8dee9"
       , focusedBorderColor  = "#88c0d0"
       , layoutHook          = myLayouts
@@ -155,4 +158,4 @@ myConfig = def
       , startupHook         = myStartupHooks <+> ewmhDesktopsStartup
       , manageHook          = manageDocks <+> myManageHook
       , handleEventHook     = docksEventHook <+> ewmhDesktopsEventHook
-      , logHook             = ewmhDesktopsLogHook }
+      , logHook             = ewmhDesktopsLogHook >> updatePointer (0.5, 0.5) (0, 0) }

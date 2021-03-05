@@ -1,5 +1,4 @@
 call plug#begin()
-Plug 'rakr/vim-one'
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'tpope/vim-fugitive'
@@ -7,14 +6,11 @@ Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
 Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
-Plug 'thoughtbot/vim-rspec'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'alissonbrunosa/vim-wdirs', { 'do': './install' }
 Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'arcticicestudio/nord-vim', { 'tag': 'v0.15.0' }
+Plug 'arcticicestudio/nord-vim'
 call plug#end()
 
 syntax on
@@ -51,11 +47,12 @@ set backspace=indent,eol,start
 
 let g:mapleader = ' '
 
+nnoremap <leader>f :Rg<space>
+
 nnoremap <silent><leader>b :Buffers<CR>
 nnoremap <silent><leader>o :Files<CR>
 nnoremap <silent><leader>c :bd<CR>
 nnoremap <silent><leader>w :up<CR>
-nnoremap <silent><leader>f :BLines<CR>
 nnoremap <silent><leader>d :Wdirs<CR>
 
 map <A-a>j <C-w>j
@@ -109,7 +106,6 @@ augroup END
 augroup filetype_json
   autocmd!
   au BufRead,BufNewFile *.json set expandtab
-  au BufRead,BufNewFile *.json set tabstop=4
   au BufRead,BufNewFile *.json set softtabstop=2
   au BufRead,BufNewFile *.json set shiftwidth=2
   au BufRead,BufNewFile *.json set autoindent

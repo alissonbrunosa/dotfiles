@@ -4,5 +4,4 @@ WALLPAPERS="$HOME/Pictures/Wallpapers/others"
 ALIST=( `ls -w1 $WALLPAPERS` )
 RANGE=${#ALIST[*]}
 FIRST=$(( $RANDOM % $RANGE ))
-SECOND=$(( $RANDOM % $RANGE ))
-feh --bg-scale $WALLPAPERS/${ALIST[$FIRST]} $WALLPAPERS/${ALIST[$SECOND]}
+feh --no-fehbg --bg-scale $WALLPAPERS/${ALIST[$FIRST]}
