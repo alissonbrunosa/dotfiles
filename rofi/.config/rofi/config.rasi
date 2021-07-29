@@ -1,6 +1,6 @@
 configuration {
   show-icons:         true;
-  icon-theme:         "Flatery";
+  icon-theme:         "Ubo Icons (alpha)";
   cycle:              true;
   hide-scrollbar:     true;
   disable-history:    false;

@@ -155,16 +155,14 @@ bindsym $mod+Shift+0 move container to workspace $ws10
 assign [class="Gvim"] $ws1
 assign [class="Emacs"] $ws1
 assign [class="Alacritty"] $ws1
-assign [class="Slack"] $ws2
-assign [class="Firefox"] $ws3
+assign [class="Firefox"] $ws2
+assign [class="Slack"] $ws3
 assign [class="Brave"] $ws3
 assign [class="Nautilus"] $ws5
 assign [class="vlc"] $ws6
 assign [class="Stremio"] $ws6
 assign [class="^Spotify*"] $ws9
 assign [class="Telegram"] $ws10
-
-gaps inner 10
 
 # lock screen
 bindsym $mod+Control+l exec xscreensaver-command -lock

@@ -57,3 +57,14 @@ entry {
   border-color: @accent;
 }
 
+element-icon {
+  size: 50px;
+  border: 0;
+}
+
+element-text {
+  expand:                         true;
+  horizontal-align:               0;
+  vertical-align:                 0.5;
+  margin:                         0% 0.25% 0% 0.25%;
+}
