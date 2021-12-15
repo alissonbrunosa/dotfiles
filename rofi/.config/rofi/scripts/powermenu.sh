@@ -3,9 +3,9 @@
 rofi_command="rofi -theme themes/powermenu.rasi"
 
 ### Options ###
-power_off=""
-reboot=""
-lock=""
+power_off="OFF  "
+reboot="RESTART"
+lock="LOCK"
 # Variable passed to rofi
 options="$power_off\n$reboot\n$lock"
 
@@ -18,7 +18,7 @@ case $chosen in
         systemctl reboot
         ;;
     $lock)
-        xscreensaver-command -lock
+        xdg-screensaver lock
         ;;
 esac
 

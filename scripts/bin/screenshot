@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-SCREENSHOT_DIR="$HOME/Pictures/Screenshots/"
+SCREENSHOT_DIR="$HOME/pictures/screenshots/"
 
 case "$1" in
         display )

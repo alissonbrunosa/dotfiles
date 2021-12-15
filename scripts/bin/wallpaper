@@ -1,7 +1,3 @@
 #!/bin/sh
 
-WALLPAPERS="$HOME/Pictures/Wallpapers/others"
-ALIST=( `ls -w1 $WALLPAPERS` )
-RANGE=${#ALIST[*]}
-FIRST=$(( $RANDOM % $RANGE ))
-feh --no-fehbg --bg-scale $WALLPAPERS/${ALIST[$FIRST]}
+feh --bg-center --randomize $HOME/pictures/wallpapers/*

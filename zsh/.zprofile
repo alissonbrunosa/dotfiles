@@ -1,6 +1,4 @@
 setopt HISTAPPEND
 
-source $HOME/.exports
-
-eval "$(rbenv init -)"
+eval "$(nodenv init -)"
 eval "$(dircolors ~/.dir_colors)"
