@@ -1,16 +1,21 @@
 call plug#begin()
+" Tools
 Plug 'junegunn/fzf.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'tpope/vim-fugitive'
+
+Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+
 Plug 'airblade/vim-gitgutter'
-Plug 'pangloss/vim-javascript'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install' }
+
+" Go plugins
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'alissonbrunosa/vim-wdirs', { 'do': './install' }
-Plug 'vim-airline/vim-airline'
+
+" Themes
 Plug 'arcticicestudio/nord-vim'
+Plug 'vim-airline/vim-airline'
 call plug#end()
 
 syntax on
@@ -25,8 +30,6 @@ set hidden
 set ruler
 set exrc
 set secure
-set expandtab
-set shiftwidth=2
 set incsearch
 set noshowmode
 set list
@@ -35,7 +38,6 @@ set listchars=eol:⏎,tab:···,trail:·,extends:>,precedes:<
 set showbreak=↪\
 set ignorecase
 set smartcase
-set incsearch
 set hlsearch
 set scrolloff=2
 set clipboard=unnamedplus
@@ -55,14 +57,9 @@ nnoremap <silent><leader>c :bd<CR>
 nnoremap <silent><leader>w :up<CR>
 nnoremap <silent><leader>d :Wdirs<CR>
 
-map <A-a>j <C-w>j
-map <A-a>k <C-w>k
-map <A-a>l <C-w>l
-map <A-a>h <C-w>h
-map <A-a>q <C-w>q
-
 if has("terminal")
-  map <Leader>tt :terminal ++close<cr>
+  set termwinsize=20*0
+  map <Leader>tt :bo terminal ++close<cr>
 endif
 
 if has('gui_running')
@@ -80,42 +77,4 @@ if has("termguicolors")
   set termguicolors
 endif
 
-" Ruby
-augroup filetype_ruby
-  autocmd!
-  au BufRead,BufNewFile *.rb set expandtab
-  au BufRead,BufNewFile *.rb set tabstop=2
-  au BufRead,BufNewFile *.rb set softtabstop=2
-  au BufRead,BufNewFile *.rb set shiftwidth=2
-  au BufRead,BufNewFile *.rb set autoindent
-  au         BufNewFile *.rb set fileformat=unix
-augroup END
-
-" Go
-augroup filetype_go
-  autocmd!
-  au BufRead,BufNewFile *.go set expandtab
-  au BufRead,BufNewFile *.go set tabstop=4
-  au BufRead,BufNewFile *.go set softtabstop=4
-  au BufRead,BufNewFile *.go set shiftwidth=4
-  au BufRead,BufNewFile *.go set autoindent
-  au         BufNewFile *.go set fileformat=unix
-augroup END
-
-" JSON
-augroup filetype_json
-  autocmd!
-  au BufRead,BufNewFile *.json set expandtab
-  au BufRead,BufNewFile *.json set softtabstop=2
-  au BufRead,BufNewFile *.json set shiftwidth=2
-  au BufRead,BufNewFile *.json set autoindent
-  au         BufNewFile *.json set fileformat=unix
-augroup END
-
-let g:prettier#autoformat = 0
 let g:airline_theme='nord'
-
-autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.vue,*.yaml PrettierAsync
-au WinEnter * :vertical resize 140
-
-let g:discovery_path = "/home/alisson/code"
