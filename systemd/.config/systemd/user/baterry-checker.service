@@ -1,0 +1,6 @@
+[Unit]
+Description=Script that checks the reamaing battery capacity and notifies me
+[Service]
+ExecStart=%h/.local/bin/battery-check
+[Install]
+WantedBy=default.target

@@ -1,13 +1,13 @@
 window:
   padding:
     x: 0
-    y: 4
+    y: 0
 font:
-  size: 11
+  size: 12
   # The normal (roman) font face to use.
   normal:
     family: Cascadia Code
-    style: Medium
+    style: Regular
 
   # The bold font face
   bold:
@@ -27,7 +27,7 @@ use_thin_strokes: true
 schemes:
   nord: &dark
     primary:
-      background: '#2e3440'
+      background: '#000000'
       foreground: '#d8dee9'
       dim_foreground: '#a5abb6'
     cursor:
@@ -47,7 +47,7 @@ schemes:
         background: '#434c5e'
         foreground: '#d8dee9'
     normal:
-      black: '#3b4252'
+      black: '#000000'
       red: '#bf616a'
       green: '#a3be8c'
       yellow: '#ebcb8b'

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+remaining=$(</sys/class/power_supply/BAT0/capacity)
+status=$(</sys/class/power_supply/BAT0/status)
+
+if [[ $status ==  "Discharging" ]] ; then
+  if [[ $remaining == "20" ]]; then
+    notify-send -i xfce4-fsguard-plugin-warning -u normal "<b>Battery:</b>" "<i>Battery at $remaining%</i>"
+  elif [ $remaining == "10" ]; then
+    notify-send -i xfce4-fsguard-plugin-warning -u critical "<b>Battery:</b>" "<i>Battery at $remaining%</i>"
+  fi
+fi

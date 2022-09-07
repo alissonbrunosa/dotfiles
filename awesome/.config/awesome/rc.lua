@@ -20,7 +20,7 @@ require("awful.hotkeys_popup.keys")
 
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
-local empty     = wibox.container.background(wibox.container.margin(wibox.widget { first, layout = wibox.layout.align.horizontal }, dpi(3), dpi(3)), "#2e3440")
+local empty = wibox.container.background(wibox.container.margin(wibox.widget { first, layout = wibox.layout.align.horizontal }, dpi(3), dpi(3)), "#2e3440")
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -52,9 +52,8 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
-editor = os.getenv("EDITOR") or "vi"
+editor = os.getenv("EDITOR") or "vimx"
 editor_cmd = terminal .. " -e " .. editor
-exec = terminal .. " -e echo" .. gears.filesystem.get_xdg_config_home() .. " > /home/alisson/test123"
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -65,9 +64,9 @@ modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
+    awful.layout.suit.tile.left,
     awful.layout.suit.tile,
     awful.layout.suit.floating,
-    awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
     awful.layout.suit.fair,
@@ -107,14 +106,11 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
--- Keyboard map indicator and switcher
-mykeyboardlayout = awful.widget.keyboardlayout()
-
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock()
 
-local github_activity_widget = require("github")
+local vpn_widget = require("vpn")
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -154,7 +150,12 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6" }, s, awful.layout.layouts[1])
+    if s.outputs["eDP-1"] then
+        awful.tag({ "1", "2", "3", "4", "5", "6" }, s, awful.layout.layouts[10])
+    else
+        awful.tag({ "1", "2", "3", "4", "5", "6" }, s, awful.layout.layouts[1])
+    end
+
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -206,21 +207,14 @@ awful.screen.connect_for_each_screen(function(s)
         s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            github_activity_widget,
-            mykeyboardlayout,
             mytextclock,
+            empty,
+            vpn_widget,
+            empty,
             s.mylayoutbox,
         },
     }
 end)
--- }}}
-
--- {{{ Mouse bindings
--- root.buttons(gears.table.join(
---     awful.button({ }, 3, function () mymainmenu:toggle() end),
---     awful.button({ }, 4, awful.tag.viewnext),
---     awful.button({ }, 5, awful.tag.viewprev)
--- ))
 -- }}}
 
 -- {{{ Key bindings
@@ -307,7 +301,7 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
+    awful.key({ modkey }, "r", function () awful.screen.focused().mypromptbox:run() end,
               {description = "run prompt", group = "launcher"}),
 
     awful.key({ modkey }, "x",
@@ -325,23 +319,26 @@ globalkeys = gears.table.join(
               {description = "show the app launcher", group = "launcher"}),
 
     -- Multimedia
-    awful.key({ }, "XF86AudioMute", function () awful.spawn("volumectl mute") end,
+    awful.key({ }, "XF86AudioMute", function () awful.spawn("audioctl speakers mute") end,
               {description = "mute", group = "Multimedia"}),
-    awful.key({ }, "XF86AudioLowerVolume", function () awful.spawn("volumectl minus") end,
+    awful.key({ }, "XF86AudioLowerVolume", function () awful.spawn("audioctl speakers minus") end,
               {description = "lows volume", group = "Multimedia"}),
-    awful.key({ }, "XF86AudioRaiseVolume", function () awful.spawn("volumectl plus") end,
+    awful.key({ }, "XF86AudioRaiseVolume", function () awful.spawn("audioctl speakers plus") end,
               {description = "raises volume", group = "Multimedia"}),
-    awful.key({ }, "XF86AudioMicMute", function () awful.spawn("pactl set-source-mute 1 toggle") end,
+    awful.key({ }, "XF86AudioMicMute", function () awful.spawn("audioctl mic mute") end,
+              {description = "mute mic", group = "Multimedia"}),
+    awful.key({ }, "F4", function () awful.spawn("audioctl mic mute") end,
               {description = "mute mic", group = "Multimedia"}),
     -- Monitors
     awful.key({ }, "XF86MonBrightnessUp", function () awful.spawn("light -A 10") end,
               {description = "increase brightness", group = "Montitors"}),
     awful.key({ }, "XF86MonBrightnessDown", function () awful.spawn("light -U 10") end,
               {description = "decrease brightness", group = "Montitors"}),
-    --p
 
     -- Utils
-    awful.key({ }, "XF86Tools", function () awful.spawn("xscreensaver-command -lock") end,
+    awful.key({ }, "XF86Tools", function () awful.spawn("xdg-screensaver lock") end,
+              {description = "lock screen", group = "Utils"}),
+    awful.key({ }, "F12", function () awful.spawn("xdg-screensaver lock") end,
               {description = "lock screen", group = "Utils"}),
     awful.key({ }, "Print", function () awful.spawn("screenshot display") end,
               {description = "takes a screenshot all monitors", group = "Utils"}),
@@ -467,37 +464,37 @@ root.keys(globalkeys)
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
     -- Alacritty
-    { rule = { class = "Alacritty" },
+    { rule = { class = "[Aa]lacritty" },
       properties = {
         tag = "1",
         switchtotag = true
       },
     },
     -- Firefox
-    { rule = { class = "Firefox Developer Edition" },
+    { rule = { class = "[Ff]irefox" },
+      properties = {
+        tag = "1",
+        switchtotag = true
+      },
+    },
+    -- Slack
+    { rule = { class = "[Ss]lack" },
       properties = {
         tag = "2",
         switchtotag = true
       },
     },
-    -- Slack
-    { rule = { class = "Slack" },
+    -- Telegram
+    { rule = { class = "[Tt]elegram" },
       properties = {
-        tag = "3",
+        tag = "2",
         switchtotag = true
       },
     },
     -- File Manager
     { rule = { class = "Pcmanfm" },
       properties = {
-        tag = "4",
-        switchtotag = true
-      },
-    },
-    -- File Manager
-    { rule = { class = "Telegram" },
-      properties = {
-        tag = "5",
+        tag = "3",
         switchtotag = true
       },
     },
@@ -511,9 +508,13 @@ awful.rules.rules = {
     {
       rule = {
         name = "Picture-in-Picture",
-        class = "Firefox Developer Edition"
+        class = "[Ff]irefox"
       },
       properties = {
+        x = dpi(2952),
+        y = dpi(1162),
+        width = dpi(478),
+        height = dpi(268),
         sticky = true
       },
     },
@@ -549,12 +550,15 @@ awful.rules.rules = {
           "Wpa_gui",
           "veromix",
           "Xdg-desktop-portal-gtk",
-          "xtightvncviewer"},
+          "xtightvncviewer",
+          "Zenity",
+        },
 
         -- Note that the name property shown in xprop might be set slightly after creation of the client
         -- and the name shown there might not match defined rules here.
         name = {
           "Event Tester",  -- xev.
+          "Choose Application",
         },
         role = {
           "Dialog",        -- Firefox Download dialog.

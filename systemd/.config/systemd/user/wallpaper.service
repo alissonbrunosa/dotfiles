@@ -1,0 +1,7 @@
+[Unit]
+Description=wallpaper
+[Service]
+ExecStart=%h/bin/wallpaper
+Restart=on-failure
+[Install]
+WantedBy=default.target

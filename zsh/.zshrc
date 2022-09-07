@@ -2,7 +2,7 @@ export ZSH="$HOME/.oh-my-zsh"
 
 ZSH_THEME="alisson"
 
-plugins=(git autojump systemd bundler)
+plugins=(git autojump systemd bundler asdf)
 
 source $ZSH/oh-my-zsh.sh
 

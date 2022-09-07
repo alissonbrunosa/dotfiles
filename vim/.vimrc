@@ -14,15 +14,14 @@ Plug 'airblade/vim-gitgutter'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " Themes
-Plug 'arcticicestudio/nord-vim'
 Plug 'vim-airline/vim-airline'
+Plug 'alissonbrunosa/black'
 call plug#end()
 
 syntax on
-colorscheme nord
+colorscheme black
 
 set nocompatible
-set background=dark
 set number
 set relativenumber
 set cursorline
@@ -39,7 +38,7 @@ set showbreak=↪\
 set ignorecase
 set smartcase
 set hlsearch
-set scrolloff=2
+set scrolloff=30
 set clipboard=unnamedplus
 set backupdir=/tmp
 set directory=/tmp
@@ -47,20 +46,6 @@ set tags+=.git/tags
 set autoread
 set backspace=indent,eol,start
 
-let g:mapleader = ' '
-
-nnoremap <leader>f :Rg<space>
-
-nnoremap <silent><leader>b :Buffers<CR>
-nnoremap <silent><leader>o :Files<CR>
-nnoremap <silent><leader>c :bd<CR>
-nnoremap <silent><leader>w :up<CR>
-nnoremap <silent><leader>d :Wdirs<CR>
-
-if has("terminal")
-  set termwinsize=20*0
-  map <Leader>tt :bo terminal ++close<cr>
-endif
 
 if has('gui_running')
   set guifont=JetBrains\ Mono\ Bold\ 12
@@ -72,9 +57,15 @@ if has('gui_running')
 endif
 
 if has("termguicolors")
+  set termguicolors
   let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
   let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
-  set termguicolors
 endif
 
-let g:airline_theme='nord'
+
+augroup filetypedetect
+" Iracema
+au BufNewFile,BufRead *.ir setf iracema
+augroup END
+
+let g:airline_theme='black'

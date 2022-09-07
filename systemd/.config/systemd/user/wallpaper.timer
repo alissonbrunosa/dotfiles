@@ -1,0 +1,9 @@
+[Unit]
+Description=wallpaper timer
+
+[Timer]
+OnBootSec=15sec
+OnCalendar=hourly
+
+[Install]
+WantedBy=timers.target

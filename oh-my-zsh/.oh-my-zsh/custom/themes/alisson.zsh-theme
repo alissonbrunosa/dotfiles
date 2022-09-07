@@ -17,9 +17,9 @@ function prompt_setup() {
         add-zsh-hook precmd prompt_setup
 
         local bar="╾─╼"
-        local nord3="%F{#4C566A}"
+        local nord3="%F{#D8DEE9}"
         local nord4="%F{#D8DEE9}"
-        local nord8="%F{#88C0D0}"
+        local nord8="%F{#61AFEF}"
         local nord10="%F{#5E81AC}"
         local nord11="%F{#BF616A}"
         local nord12="%F{#D08770}"
