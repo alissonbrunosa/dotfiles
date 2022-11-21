@@ -1,8 +1,8 @@
 " Key Bindings
 let g:mapleader = ' '
-nnoremap <leader>f :Rg<space>
+nnoremap <leader>/ :Rg<space>
 nnoremap <silent><leader>b :Buffers<CR>
-nnoremap <silent><leader>o :Files<CR>
+nnoremap <silent><leader>f :Files<CR>
 nnoremap <silent><leader>c :bd<CR>
 nnoremap <silent><leader>w :up<CR>
 
