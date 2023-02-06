@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+
+rofi -dmenu -input /home/carcara/emoji-finder/emojis -theme emoji-picker.rasi -p 😎 | xclip -sel clip
+

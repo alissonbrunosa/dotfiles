@@ -1,6 +1,6 @@
 configuration {
   show-icons:         true;
-  icon-theme:         "Papirus-Dark";
+  icon-theme:         "Zafiro-Icons";
   cycle:              true;
   hide-scrollbar:     true;
   disable-history:    false;
