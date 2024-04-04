@@ -1,4 +1,4 @@
 setopt HISTAPPEND
 
-eval "$(nodenv init -)"
+[[ -n "$(command -v xsetroot)" ]] && eval "$(nodenv init -)"
 eval "$(dircolors ~/.dir_colors)"

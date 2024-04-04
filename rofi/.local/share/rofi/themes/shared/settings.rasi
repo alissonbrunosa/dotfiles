@@ -3,7 +3,7 @@
  * @import "colorschemes/dark-steel-blue.rasi"
 **/
 
-@import "colorschemes/nord.rasi"
+@import "colorschemes/idnw.rasi"
 @import "resolutions/1920x1080.rasi"
 
 #window {

@@ -1,7 +1,7 @@
 call plug#begin()
 " Tools
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf'
 
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-rhubarb'
@@ -15,11 +15,12 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 " Themes
 Plug 'vim-airline/vim-airline'
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 Plug 'alissonbrunosa/black'
 call plug#end()
 
 syntax on
-colorscheme black
+colorscheme catppuccin_mocha
 
 set nocompatible
 set number
@@ -67,5 +68,3 @@ augroup filetypedetect
 " Iracema
 au BufNewFile,BufRead *.ir setf iracema
 augroup END
-
-let g:airline_theme='black'

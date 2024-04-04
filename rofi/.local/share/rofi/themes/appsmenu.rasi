@@ -55,9 +55,9 @@ element {
 }
 
 element.selected {
+  text-color: @foreground-focus;
   background-color: @background-focus;
-  text-color: @accent;
-  border-color: @accent;
+  border-color: @element-selected;
 }
 
 element-icon {
@@ -77,9 +77,9 @@ element-text {
   vertical-align:                 0.5;
   margin:                         0% 0.25% 0% 0.25%;
   background-color: @background-light;
-  border-color: @background-light;
 }
 
 element-text.selected {
+  text-color: @foreground-focus;
   background-color: @background-focus;
 }

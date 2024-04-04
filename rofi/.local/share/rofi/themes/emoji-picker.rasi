@@ -1,12 +1,5 @@
-* {
-    font:           "Cascadia Code 14";
-    background:     #2E3440FF;
-    background-alt: #383E4AFF;
-    foreground:     #E5E9F0FF;
-    selected:       #81A1C1FF;
-    active:         #A3BE8CFF;
-    urgent:         #BF616AFF;
-}
+
+@import "shared/settings.rasi"
 
 /*****----- Main Window -----*****/
 window {
@@ -40,19 +33,26 @@ mainbox {
 }
 
 /*****----- Inputbar -----*****/
+
+inputbar,
+prompt,
+textbox-prompt-colon,
+entry {
+    background-color:            @background-light;
+}
+
 inputbar {
     enabled:                     true;
     margin:                      4px 4px;
-    background-color:            #3b4252;
     children:                    [ prompt, textbox-prompt-colon, entry ];
 }
 
 prompt {
     font:                        "Cascadia Code 20";
-    padding:                     16px 20px;
+    padding:                     @prompt-padding;
+    background-color:            @accent;
+    text-color:                  @background;
     enabled:                     true;
-    background-color:            #88C0D0;
-    text-color:                  inherit;
 }
 
 textbox-prompt-colon {
@@ -66,7 +66,6 @@ textbox-prompt-colon {
 
 entry {
     enabled:                     true;
-    background-color:            #3b4252;
     padding:                     18px 16px 16px 0px;
     text-color:                  #88C0D0;
     cursor:                      text;
@@ -100,7 +99,7 @@ scrollbar {
     handle-width:                5px ;
     handle-color:                @selected;
     border-radius:               0px;
-    background-color:            @background-alt;
+    background-color:            @background-focus;
 }
 
 /*****----- Elements -----*****/
@@ -125,7 +124,7 @@ element normal.normal {
 }
 
 element selected.normal {
-    background-color:            @background-alt;
+    background-color:            @background-focus;
     text-color:                  @foreground;
 }
 

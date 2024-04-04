@@ -1,5 +1,6 @@
 local setmetatable = setmetatable
 local awful        = require('awful')
+local timer        = require('gears.timer')
 local beautiful    = require('beautiful')
 local wibox        = require('wibox')
 
@@ -15,20 +16,22 @@ local adjust_volume = function(widget, n)
   end
 end
 
-local refresh
-refresh = function(widget)
-    return function()
+local refresh = function(widget)
+    local callback
+    callback = function()
         awful.spawn.easy_async('pa-cli sink get-volume', function(stdout, stderr)
             if stderr ~= '' then
                 print('Error while getting speaker volume')
                 print('Retrying in 15 secs')
-                timer.start_new(15, refresh)
+                timer.start_new(15, callback)
                 return
             end
 
             widget:set_value(tonumber(stdout))
         end)
     end
+
+    return callback
 end
 
 local new = function(context)

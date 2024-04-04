@@ -1,6 +1,6 @@
-local awful         = require('awful')
-local beautiful     = require('beautiful')
-local dpi           = require("beautiful.xresources").apply_dpi
+local awful     = require('awful')
+local beautiful = require('beautiful')
+local dpi       = require("beautiful.xresources").apply_dpi
 
 -- Rules to apply to new clients (through the "manage" signal).
 return function(clientkeys, clientbuttons)
@@ -59,16 +59,15 @@ return function(clientkeys, clientbuttons)
             },
         },
         {
-            rule = {
-                name = "Picture-in-Picture",
-                class = "[Ff]irefox"
+            rule_any = {
+                name  = { "Picture-in-Picture", "Picture in picture", }
             },
             properties = {
-                x       =  dpi(2952),
-                y       =  dpi(1162),
-                width   =  dpi(1024),
-                height  =  dpi(768),
-                sticky  =  true
+                x      = dpi(2555),
+                y      = dpi(1162),
+                width  = dpi(1280),
+                height = dpi(720),
+                sticky = true
             },
         },
 
@@ -76,14 +75,14 @@ return function(clientkeys, clientbuttons)
         {
             rule = { },
             properties = {
-                border_color  =  beautiful.border_normal,
-                focus         =  awful.client.focus.filter,
-                raise         =  true,
-                keys          =  clientkeys,
-                buttons       =  clientbuttons,
-                screen        =  awful.screen.preferred,
-                placement     =  awful.placement.no_overlap + awful.placement.no_offscreen,
-                border_width  =  beautiful.border_width,
+                border_color = beautiful.border_normal,
+                focus        = awful.client.focus.filter,
+                raise        = true,
+                keys         = clientkeys,
+                buttons      = clientbuttons,
+                screen       = awful.screen.preferred,
+                placement    = awful.placement.no_overlap + awful.placement.no_offscreen,
+                border_width = beautiful.border_width,
             }
         },
 

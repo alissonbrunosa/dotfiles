@@ -46,4 +46,4 @@ export HISTFILESIZE=100000               # big big history
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
-. "$HOME/.cargo/env"
+export GPG_TTY=$(tty)

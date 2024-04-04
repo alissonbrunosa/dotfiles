@@ -47,9 +47,9 @@ local create_left_column = function(context)
             widget  = wibox.container.background,
             bg      = beautiful.bg_widget,
         },
+        spacing      = dpi(10),
         forced_width = dpi(320),
-        spacing = dpi(10),
-        widget  = wibox.layout.fixed.vertical
+        widget       = wibox.layout.fixed.vertical
     }
 end
 

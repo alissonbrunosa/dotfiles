@@ -1,7 +1,7 @@
 * {
   /* General */
-  text-font:                            "Cascadia Code 14";
-  text-font-mono:                       "Cascadia Code 14";
+  text-font:                            "Iosevka Medium 14";
+  text-font-mono:                       "Iosevka Medium 14";
   inputbar-margin:                      4px 4px;
   prompt-padding:                       16px 20px;
   entry-padding:                        18px 16px 16px 0px;

@@ -12,7 +12,7 @@ local config_path  = gfs.get_configuration_dir()
 
 local theme = {}
 
-theme.master_width_factor = 0.62
+theme.master_width_factor = 0.55
 
 theme.font_name       = 'Iosevka Medium'
 theme.font_extra_bold = 'Iosevka Extrabold'
@@ -32,19 +32,19 @@ theme.full          = '#90CEAA'
 theme.bg_normal     = '#0d0f18'
 theme.bg_widget     = '#151720'
 theme.background3   = '#313244'
-theme.bg_focus      = '#86aaec'
+theme.bg_focus      = '#86AAEC'
 theme.bg_urgent     = '#F38BA8'
 theme.bg_minimize   = '#444444'
 
-theme.fg_title      = '#bd92e5'
+theme.fg_title      = '#BD92E5'
 theme.fg_subtitle   = '#ecd3a0'
-theme.fg_normal     = '#a5b6cf'
+theme.fg_normal     = '#A5B6CF'
 theme.sub_text      = '#272B31'
 theme.fg_focus      = '#11111B'
 theme.fg_urgent     = '#ffffff'
 theme.fg_minimize   = '#ffffff'
 
-theme.useless_gap   = dpi(7)
+theme.useless_gap   = dpi(2)
 theme.border_width  = dpi(2)
 theme.border_normal = '#0d0f18'
 theme.border_focus  = '#bd92e5'

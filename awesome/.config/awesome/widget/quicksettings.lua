@@ -51,10 +51,10 @@ local function worker(context)
         {
             icon    = '',
             font    = beautiful.icon_font('Regular'),
-            command = configure_layout(awful.layout.suit.tile),
+            command = configure_layout(awful.layout.suit.tile.left),
 
             init_listeners = function(widget)
-                local update = create_update_func(awful.layout.suit.tile, widget)
+                local update = create_update_func(awful.layout.suit.tile.left, widget)
                 tag.connect_signal('property::selected', update)
                 tag.connect_signal('property::layout', update)
             end
@@ -249,7 +249,7 @@ local function worker(context)
             end,
         },
         {
-            icon    = '',
+            icon    = '',
             font    = beautiful.icon_font('Solid'),
             command = function(widget)
                 awful.spawn.with_shell('scrot $HOME/Pictures/Screenshots/%d-%b-%Y-%H%M%S.png')

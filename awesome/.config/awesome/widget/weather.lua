@@ -58,7 +58,7 @@ local hourly_widget = function()
             },
             widget = wibox.container.place,
         },
-        spacing = dpi(2),
+        spacing = dpi(4),
         layout = wibox.layout.fixed.vertical,
     })
 

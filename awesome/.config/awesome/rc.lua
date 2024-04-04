@@ -3,11 +3,13 @@ pcall(require, "luarocks.loader")
 require("awful.autofocus")
 require("awful.hotkeys_popup.keys")
 
+local beautiful = require("beautiful")
+local gears     = require("gears")
+beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
+
 local context       = require('context')
-local gears         = require("gears")
 local awful         = require("awful")
 local wibox         = require("wibox")
-local beautiful     = require("beautiful")
 local naughty       = require("naughty")
 local menubar       = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
@@ -16,6 +18,8 @@ local dpi           = require("beautiful.xresources").apply_dpi
 local clientkeys    = require('clientkeys')
 local clientbuttons = require('clientbuttons')
 local rules         = require('rules')
+local vpn_widget    = require('widget.vpn')
+local infopanel     = require("infopanel")(context)
 
 local space_widget = {
   forced_width = dpi(10),
@@ -49,14 +53,7 @@ end
 
 -- }}}
 
--- {{{ Variable definitions
--- Themes define colours, icons, font and wallpapers.
-beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
-
--- This is used later as the default terminal and editor to run.
 terminal = "kitty"
-editor = os.getenv("EDITOR") or "vimx"
-editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -67,36 +64,21 @@ modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-  awful.layout.suit.tile.left,
-  awful.layout.suit.max,
-  awful.layout.suit.magnifier,
+    awful.layout.suit.tile.left,
+    awful.layout.suit.max,
+    awful.layout.suit.magnifier,
 }
 -- }}}
 
--- {{{ Menu
--- Create a launcher widget and a main menu
-myawesomemenu = {
-   { "hotkeys", function() hotkeys_popup.show_help(nil, awful.screen.focused()) end },
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "show home",  exec },
-   { "restart", awesome.restart },
-   { "quit", function() awesome.quit() end },
-}
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
 
 
+
+
 -- {{{ Wibar
-
--- Create a VPN widget
-local vpn_widget = require('widget.vpn')
-
--- Battery widget
-local infopanel = require("infopanel")(context)
-
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
     awful.button({ }, 1, function(t) t:view_only() end),
@@ -154,21 +136,18 @@ awful.screen.connect_for_each_screen(function(s)
     s.mywibox:setup {
         widget = wibox.layout.align.horizontal,
         { -- Left widgets
-            widget = wibox.layout.fixed.horizontal,
-            space_widget,
             space_widget,
             s.mytaglist,
             space_widget,
             s.mypromptbox,
+            widget = wibox.layout.fixed.horizontal,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
-            widget = wibox.layout.fixed.horizontal,
             infopanel,
             space_widget,
-            space_widget,
             vpn_widget(),
-            space_widget,
+            widget = wibox.layout.fixed.horizontal,
         },
     }
 end)
@@ -256,7 +235,8 @@ globalkeys = gears.table.join(
     awful.key({ },                   "F12",       fun.lock_screen,               { description = "lock screen", group = "Utils" }),
     awful.key({ },                   "Print",     fun.take_screnshot('all'),     { description = "takes a screenshot all monitors", group = "Utils" }),
     awful.key({ modkey },            "Print",     fun.take_screnshot('monitor'), { description = "takes a screenshot focused monitor", group = "Utils" }),
-    awful.key({ modkey, "Control" }, "Print",     fun.take_screnshot('area'),    { description = "takes a screenshot cropped area", group = "Utils" })
+    awful.key({ modkey, "Control" }, "Print",     fun.take_screnshot('area'),    { description = "takes a screenshot cropped area", group = "Utils" }),
+    awful.key({ modkey,           }, "e", function () awful.spawn('emoji-picker') end, { description = "Emoji picker", group = "Utils" })
 )
 
 
@@ -320,7 +300,7 @@ awful.rules.rules = rules(clientkeys, clientbuttons)
 client.connect_signal("manage", function (c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    -- if not awesome.startup then awful.client.setslave(c) end
+    if not awesome.startup then awful.client.setslave(c) end
 
     if awesome.startup
       and not c.size_hints.user_position
@@ -340,3 +320,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 --
 context:emit('context::loaded')
+awful.spawn.with_shell('autostart')

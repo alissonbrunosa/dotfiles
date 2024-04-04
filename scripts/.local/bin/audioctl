@@ -1,49 +1,31 @@
 #!/bin/bash
 
-move_sink_inputs() {
-    local default=$1
-
-    for input in $(ponymix --short --sink-input list | cut -f 2); do
-        ponymix --sink-input -d $input move $default
-    done
-}
-
-
 set_default_sink() {
     default=$(
         pa-cli sink list | cut -f 1,3 |
         rg --invert-match Monitor |
         awk '{print $0"\0icon\x1faudio-speakers"}' |
-        rofi -dmenu -p 'Sink:' -theme themes/appsmenu.rasi |
+        rofi -dmenu -p 'Sink:' -theme appsmenu.rasi |
         cut -f 1
     )
 
     [[ -z $default ]] && exit 1
 
-    pa-cli sink set-default $default && move_sink_inputs $default
+    pa-cli sink set-default $default
 }
-
-move_source_outputs() {
-    local default=$1
-
-    for output in $(ponymix --short --source-output list | cut -f 3); do
-        ponymix --source-output -d $output move $default
-    done
-}
-
 
 set_default_source() {
     default=$(
         pa-cli source list | cut -f 1,3 |
         rg --invert-match Monitor |
         awk '{print $0"\0icon\x1faudio-input-microphone"}' |
-        rofi -dmenu -p 'Source:' -theme themes/appsmenu.rasi -show-icons |
+        rofi -dmenu -p 'Source:' -theme appsmenu.rasi -show-icons |
         cut -f 1
     )
 
     [[ -z $default ]] && exit 1
 
-    pa-cli source set-default $default && move_source_outputs $default
+    pa-cli source set-default $default
 }
 
 process_default() {
