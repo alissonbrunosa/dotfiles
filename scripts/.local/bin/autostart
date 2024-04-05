@@ -1,0 +1,10 @@
+#!/bin/sh
+
+_autostart() {
+  if ! pgrep -f "$1" ;
+  then
+    "$@"&
+  fi
+}
+
+_autostart xscreensaver -nosplash
