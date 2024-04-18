@@ -8,10 +8,11 @@ source $ZSH/oh-my-zsh.sh
 
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
-if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -n "$DISPLAY" ] && [[ -o  interactive ]]; then
-    tmux new -A -s Main
+if [[ -n "$(command -v zellij)" && -z "$ZELLIJ" && -n "$DISPLAY" && -o interactive ]]; then
+    zellij attach Main --create
 fi
 
 source $HOME/.aliases
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.zsh.extras ] && source ~/.zsh.extras

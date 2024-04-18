@@ -3,7 +3,7 @@
 export EDITOR="vimx"
 
 # Go
-export GOPATH="$HOME/code/go"
+export GOPATH="$HOME/Code/Go"
 
 # PATH
 smart_export () {
@@ -20,14 +20,15 @@ smart_export () {
     esac
 }
 
-smart_export "$HOME/.local/bin"    after
-smart_export "$HOME/.rbenv/bin"    after
-smart_export "$HOME/.nodenv/bin"   after
-smart_export "$GOPATH/bin"         after
-smart_export "$HOME/.cargo/bin"    after
-smart_export "$HOME/spicetify-cli" after
-smart_export "/usr/local/bin"      after
-smart_export "/usr/local/go/bin"   after
+smart_export "$HOME/.local/bin"        after
+smart_export "$HOME/.local/bin/go/bin" after
+smart_export "$HOME/.rbenv/bin"        after
+smart_export "$HOME/.nodenv/bin"       after
+smart_export "$GOPATH/bin"             after
+smart_export "$HOME/.cargo/bin"        after
+smart_export "$HOME/spicetify-cli"     after
+smart_export "/usr/local/bin"          after
+smart_export "/usr/local/go/bin"       after
 unset -f smart_export
 
 # K8s

@@ -53,7 +53,15 @@ end
 
 -- }}}
 
-terminal = "kitty"
+local function open_terminal()
+    local terminal_apps = { 'wezterm', 'alacritty', 'kitty', 'xterm' }
+    for _, terminal in ipairs(terminal_apps) do
+        local pid, snid = awful.spawn(terminal)
+        if type(pid) == "number" and snid then
+            break
+        end
+    end
+end
 
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
@@ -69,12 +77,6 @@ awful.layout.layouts = {
     awful.layout.suit.magnifier,
 }
 -- }}}
-
-
--- Menubar configuration
-menubar.utils.terminal = terminal -- Set the terminal for applications that require it
--- }}}
-
 
 
 
@@ -179,7 +181,7 @@ globalkeys = gears.table.join(
       {description = "go back", group = "client"}),
 
     -- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.spawn(terminal) end,               { description = "open a terminal", group = "launcher" }),
+    awful.key({ modkey,           }, "Return", open_terminal,                                       { description = "open a terminal", group = "launcher" }),
     awful.key({ modkey, "Control" }, "r",      awesome.restart,                                     { description = "reload awesome", group = "awesome" }),
     awful.key({ modkey, "Shift"   }, "q",      awesome.quit,                                        { description = "quit awesome", group = "awesome" }),
     awful.key({ modkey,           }, "l",      function () awful.tag.incmwfact( 0.05)          end, { description = "increase master width factor", group = "layout" }),
