@@ -7,19 +7,21 @@ local beautiful = require("beautiful")
 local gears     = require("gears")
 beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
 
-local context       = require('context')
-local awful         = require("awful")
-local wibox         = require("wibox")
-local naughty       = require("naughty")
-local menubar       = require("menubar")
-local hotkeys_popup = require("awful.hotkeys_popup")
-local fun           = require("utils.functions")(context)
-local dpi           = require("beautiful.xresources").apply_dpi
-local clientkeys    = require('clientkeys')
-local clientbuttons = require('clientbuttons')
-local rules         = require('rules')
-local vpn_widget    = require('widget.vpn')
-local infopanel     = require("infopanel")(context)
+local context        = require('context')
+local awful          = require("awful")
+local wibox          = require("wibox")
+local naughty        = require("naughty")
+local menubar        = require("menubar")
+local hotkeys_popup  = require("awful.hotkeys_popup")
+local fun            = require("utils.functions")(context)
+local dpi            = require("beautiful.xresources").apply_dpi
+local clientkeys     = require('clientkeys')
+local clientbuttons  = require('clientbuttons')
+local rules          = require('rules')
+local vpn_widget     = require('widget.vpn')
+local infopanel      = require("infopanel")(context)
+local mic_settings   = require("audio_settings")('source', context)
+local audio_settings = require("audio_settings")('sink', context)
 
 local space_widget = {
   forced_width = dpi(10),
@@ -71,10 +73,14 @@ end
 modkey = "Mod4"
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
+
+local CENTERWORK_INDEX = 1
+local TILE_LEFT_INDEX = 2
+local MAX_INDEX = 3
+
 awful.layout.layouts = {
-    awful.layout.suit.tile.left,
+    awful.layout.suit.tile,
     awful.layout.suit.max,
-    awful.layout.suit.magnifier,
 }
 -- }}}
 
@@ -105,7 +111,7 @@ local function set_wallpaper(s)
         if type(wallpaper) == "function" then
             wallpaper = wallpaper(s)
         end
-        gears.wallpaper.maximized(wallpaper, s, true)
+        gears.wallpaper.maximized(wallpaper, s)
     end
 end
 
@@ -117,8 +123,17 @@ awful.screen.connect_for_each_screen(function(s)
     set_wallpaper(s)
 
     -- Each screen has its own tag table.
-    awful.tag({ "1", "2", "3", "4", "5", "6" }, s, awful.layout.layouts[1])
+    local tag_names = { "I", "II", "III", "IV", "V", "VI" }
+    local tag_layouts = {
+        awful.layout.layouts[CENTERWORK_INDEX],
+        awful.layout.layouts[TILE_LEFT_INDEX],
+        awful.layout.layouts[MAX_INDEX],
+        awful.layout.layouts[MAX_INDEX],
+        awful.layout.layouts[MAX_INDEX],
+        awful.layout.layouts[MAX_INDEX],
+    }
 
+    awful.tag(tag_names, s, tag_layouts)
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
@@ -131,25 +146,35 @@ awful.screen.connect_for_each_screen(function(s)
       buttons = taglist_buttons,
     })
 
+    s.mytasklist = require('widget.tasklist')({
+      screen  = s,
+      filter  = awful.widget.tasklist.filter.currenttags,
+      buttons = taglist_buttons,
+    })
+
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s, height = dpi(40) })
 
     -- Add widgets to the wibox
     s.mywibox:setup {
-        widget = wibox.layout.align.horizontal,
+        layout = wibox.layout.align.horizontal,
+        expand = "none",
         { -- Left widgets
             space_widget,
             s.mytaglist,
             space_widget,
             s.mypromptbox,
-            widget = wibox.layout.fixed.horizontal,
+            layout = wibox.layout.fixed.horizontal,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
+            mic_settings,
+            audio_settings,
+            space_widget,
             infopanel,
             space_widget,
             vpn_widget(),
-            widget = wibox.layout.fixed.horizontal,
+            layout = wibox.layout.fixed.horizontal,
         },
     }
 end)
@@ -192,17 +217,6 @@ globalkeys = gears.table.join(
     awful.key({ modkey, "Control" }, "l",      function () awful.tag.incncol(-1, nil, true)    end, { description = "decrease the number of columns", group = "layout" }),
     awful.key({ modkey,           }, "space",  function () awful.layout.inc( 1)                end, { description = "select next", group = "layout" }),
     awful.key({ modkey, "Shift"   }, "space",  function () awful.layout.inc(-1)                end, { description = "select previous", group = "layout" }),
-    awful.key({ modkey, "Control" }, "n",
-      function ()
-          local c = awful.client.restore()
-          -- Focus restored client
-          if c then
-            c:emit_signal(
-                "request::activate", "key.unminimize", {raise = true}
-            )
-          end
-      end,
-      {description = "restore minimized", group = "client"}),
 
     -- Prompt
     awful.key({ modkey }, "r", function () awful.screen.focused().mypromptbox:run() end,
@@ -222,11 +236,12 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "d", fun.run_launcher, { description = "show the app launcher", group = "launcher" }),
 
     -- Multimedia
-    awful.key({ }, "XF86AudioMute",        fun.mute_audio,      { description = "mute", group = "Multimedia" }),
-    awful.key({ }, "XF86AudioLowerVolume", fun.dec_volume,      { description = "lows volume", group = "Multimedia" }),
-    awful.key({ }, "XF86AudioRaiseVolume", fun.inc_volume,      { description = "raises volume", group = "Multimedia" }),
-    awful.key({ }, "XF86AudioMicMute",     fun.mute_microphone, { description = "mute mic", group = "Multimedia" }),
-    awful.key({ }, "F4",                   fun.mute_microphone, { description = "mute mic", group = "Multimedia" }),
+    awful.key({        }, "XF86AudioMute",        fun.mute_audio,             { description = "mute", group = "Multimedia" }),
+    awful.key({        }, "XF86AudioLowerVolume", fun.dec_volume,             { description = "lows volume", group = "Multimedia" }),
+    awful.key({        }, "XF86AudioRaiseVolume", fun.inc_volume,             { description = "raises volume", group = "Multimedia" }),
+    awful.key({        }, "XF86AudioMicMute",     fun.mute_microphone,        { description = "mute mic", group = "Multimedia" }),
+    awful.key({        }, "F4",                   fun.mute_microphone,        { description = "mute mic", group = "Multimedia" }),
+    awful.key({ modkey }, "m",                    fun.open_music_application, { description = "Launch music application", group = "Multimedia" }),
 
     -- Monitors
     awful.key({ }, "XF86MonBrightnessUp",   fun.inc_brightness, { description = "increase brightness", group = "Montitors" }),
@@ -235,9 +250,9 @@ globalkeys = gears.table.join(
     -- Utils
     awful.key({ },                   "XF86Tools", fun.lock_screen,               { description = "lock screen", group = "Utils" }),
     awful.key({ },                   "F12",       fun.lock_screen,               { description = "lock screen", group = "Utils" }),
-    awful.key({ },                   "Print",     fun.take_screnshot('all'),     { description = "takes a screenshot all monitors", group = "Utils" }),
-    awful.key({ modkey },            "Print",     fun.take_screnshot('monitor'), { description = "takes a screenshot focused monitor", group = "Utils" }),
-    awful.key({ modkey, "Control" }, "Print",     fun.take_screnshot('area'),    { description = "takes a screenshot cropped area", group = "Utils" }),
+    awful.key({ },                   "Print",     fun.take_screnshot('gui'),     { description = "takes a screenshot all monitors", group = "Utils" }),
+    awful.key({ modkey },            "Print",     fun.take_screnshot('screen'), { description = "takes a screenshot focused monitor", group = "Utils" }),
+    awful.key({ modkey, "Control" }, "Print",     fun.take_screnshot('full'),    { description = "takes a screenshot cropped area", group = "Utils" }),
     awful.key({ modkey,           }, "e", function () awful.spawn('emoji-picker') end, { description = "Emoji picker", group = "Utils" })
 )
 
@@ -317,7 +332,10 @@ client.connect_signal("mouse::enter", function(c)
     c:emit_signal("request::activate", "mouse_enter", {raise = false})
 end)
 
-client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
+client.connect_signal("focus", function(c)
+    c.border_color = beautiful.border_focus
+end)
+
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 --

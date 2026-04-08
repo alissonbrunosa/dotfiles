@@ -142,6 +142,7 @@ local function worker(context)
             context:emit('calendar:reset')
             popup.visible = not popup.visible
         else
+            context:emit('popup:show', popup)
             if mouse.current_widget_geometry then
                 popup:move_next_to(mouse.current_widget_geometry)
             else
@@ -150,6 +151,12 @@ local function worker(context)
             end
         end
     end
+
+    context:on('popup:show', function(obj)
+        if obj ~= popup then
+            popup.visible = false
+        end
+    end)
 
     hand_cursor(home_widget)
     home_widget:buttons(

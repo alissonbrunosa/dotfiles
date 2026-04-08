@@ -1,60 +1,39 @@
-ZSH_THEME_GIT_PROMPT_DIRTY=" *"
-
-# copied from af-magic.zsh-theme
-function dashes {
-        local PYTHON_ENV="$VIRTUAL_ENV"
-        [[ -z "$PYTHON_ENV" ]] && PYTHON_ENV="$CONDA_DEFAULT_ENV"
-
-        if [[ -n "$PYTHON_ENV" && "$PS1" = \(* ]]; then
-                echo $(( COLUMNS - ${#PYTHON_ENV} - 3 ))
-        else
-                echo $COLUMNS
-        fi
-}
-
 function prompt_setup() {
-        autoload -Uz add-zsh-hook
-        add-zsh-hook precmd prompt_setup
+  local fg="%F{#D8DEE9}"
+  local blue="%F{#5E81AC}"
+  local purple="%F{#BF40BF}"
+  local red="%F{#BF616A}"
+  local orange="%F{#D08770}"
+  local yellow="%F{#EBCB8B}"
+  local green="%F{#A3BE8C}"
+  local reset="%f%b%k"  # Reset all attributes
 
-        local bar="╾─╼"
-        local nord3="%F{#D8DEE9}"
-        local nord4="%F{#D8DEE9}"
-        local nord8="%F{#61AFEF}"
-        local nord10="%F{#5E81AC}"
-        local nord11="%F{#BF616A}"
-        local nord12="%F{#D08770}"
-        local nord13="%F{#EBCB8B}"
-        local nord14="%F{#A3BE8C}"
-        local c_reset="%b%f%k"
-        local return_code="%(?..${nord3}[%(?.${nord8}.${nord11})%?${nord3}]${bar}${c_reset})"
-        local newline=$'\n'
+  # Prompt Symbols
+  local newline=$'\n'
+  local separator=" %{☷%} "
+  local prompt_symbol="❯"
+  local error_symbol="💥"
 
-        local repo_info="$(__git_prompt_git rev-parse --git-dir --is-inside-git-dir --is-bare-repository --is-inside-work-tree --short HEAD 2>/dev/null)"
-        local git_info
-        if [ -n "$repo_info" ]; then
-          local ref
-          ref=$(__git_prompt_git symbolic-ref --short HEAD 2> /dev/null) || ref=$(__git_prompt_git rev-parse --short HEAD 2> /dev/null)
+  ZSH_THEME_GIT_PROMPT_DIRTY="${separator}[${orange}+${reset}]"
+  ZSH_THEME_GIT_PROMPT_CLEAN="${separator}[${green}✓${reset}]"
 
-          local upstream
-          if (( ${+ZSH_THEME_GIT_SHOW_UPSTREAM} )); then
-            upstream=$(__git_prompt_git rev-parse --abbrev-ref --symbolic-full-name "@{upstream}" 2>/dev/null) \
-            && upstream=" -> ${upstream}"
-          fi
+  # Command Return Code: Display error if last command failed
+  local return_code="%(?..${red}${error_symbol} %?${reset})"
 
-          git_info="${bar}[${nord14}${ref}${upstream}${nord12}$(parse_git_dirty)${nord3}]"
-        fi
+  # Git Information Display
+  local git_info=""
+  if [[ -n $(git_current_branch) ]]; then
+    git_info="${green} $(git_current_branch)${reset}$(parse_git_dirty)${reset}"
+  fi
 
-        local dashes="${nord3}${(l.$(dashes)..-.)}"
-        local workdir="${nord3}${bar}[${nord8}%~${nord3}]${git_info} %(!.#.»)${c_reset} "
-        # primary prompt
+  # Combine PS1 Components
+  PS1="${return_code}${newline}${purple}${prompt_symbol} ${reset}"
+  RPS1="${git_info}${reset}"
 
-        PS1="${dashes}${newline}${workdir}"
-        PS2="${nord11} \ ${c_reset}"
-        RPS1="${return_code}"
-
-        # right prompt
-        (( $+functions[virtualenv_prompt_info] )) && RPS1+='$(virtualenv_prompt_info)'
-        RPS1+="${nord3}[${nord10}%n@%m${nord3}]${nord3}${bar}${c_reset}"
+  # Continuation Prompt for Multiline Commands
+  PS2="${red} \\ ${reset}"
 }
 
 prompt_setup
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd prompt_setup

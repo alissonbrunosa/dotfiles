@@ -8,10 +8,15 @@
   background-color: @background;
   text-color: @foreground-list;
   font: @text-font;
+  element-columns: 2;
 }
 
-#window {
+window {
   padding: @list-8-window-padding;
+}
+
+listview {
+  columns: 2;
 }
 
 inputbar,
@@ -61,7 +66,7 @@ element.selected {
 }
 
 element-icon {
-  size: 50px;
+  size: 60px;
   border: 0;
   background-color: @background-light;
   border-color: @background-light;

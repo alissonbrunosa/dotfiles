@@ -1,18 +1,20 @@
 export ZSH="$HOME/.oh-my-zsh"
+# export ZDOTDIR="$HOME/.zsh"
 
 ZSH_THEME="alisson"
 
-plugins=(git autojump systemd bundler asdf)
+plugins=(git autojump systemd cm)
 
 source $ZSH/oh-my-zsh.sh
 
+autoload -Uz compinit && compinit
+
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
-if [[ -n "$(command -v zellij)" && -z "$ZELLIJ" && -n "$DISPLAY" && -o interactive ]]; then
-    zellij attach Main --create
-fi
+autoload -U compinit
+compinit
 
 source $HOME/.aliases
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 [ -f ~/.zsh.extras ] && source ~/.zsh.extras
+[ -f ~/.start-zellij ] && source ~/.start-zellij

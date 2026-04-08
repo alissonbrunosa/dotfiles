@@ -5,20 +5,17 @@ local dpi       = require("beautiful.xresources").apply_dpi
 -- Rules to apply to new clients (through the "manage" signal).
 return function(clientkeys, clientbuttons)
     return {
-        -- kitty
         {
-            rule_any = { class = { "[Aa]lacritty", "kitty" } },
-            properties = {
-                tag = "1",
-                switchtotag = true
+            rule_any = {
+                class = {
+                    "[Aa]lacritty",
+                    "kitty",
+                    "wezterm",
+                    "[Ff]irefox",
+                },
             },
-        },
-
-        -- Firefox
-        {
-            rule = { class = "[Ff]irefox" },
             properties = {
-                tag = "1",
+                tag = "I",
                 switchtotag = true
             },
         },
@@ -27,7 +24,7 @@ return function(clientkeys, clientbuttons)
         {
             rule = { class = "[Ss]lack" },
             properties = {
-                tag = "2",
+                tag = "II",
                 switchtotag = true
             },
         },
@@ -36,16 +33,31 @@ return function(clientkeys, clientbuttons)
         {
             rule = { class = "[Tt]elegram" },
             properties = {
-                tag = "2",
+                tag = "II",
                 switchtotag = true
             },
         },
 
-        -- File Manager
+        -- Utilities
         {
-            rule = { class = "Pcmanfm" },
+            rule_any = {
+                class = {
+                    "Pcmanfm",
+                    "obsidian",
+                    "Zathura",
+                }
+            },
             properties = {
-                tag = "3",
+                tag = "III",
+                switchtotag = true
+            },
+        },
+
+        -- VPN Client
+        {
+            rule = { class = "[Ff]orti[Cc]lient" },
+            properties = {
+                tag = "IV",
                 switchtotag = true
             },
         },
@@ -54,21 +66,36 @@ return function(clientkeys, clientbuttons)
         {
             rule = { class = "[Ss]potify" },
             properties = {
-                tag = "6",
+                tag = "VI",
                 switchtotag = true
             },
         },
         {
             rule_any = {
-                name  = { "Picture-in-Picture", "Picture in picture", }
+                name  = { "Picture-in-Picture", "Picture in picture" },
             },
             properties = {
-                x      = dpi(2555),
-                y      = dpi(1162),
-                width  = dpi(1280),
-                height = dpi(720),
-                sticky = true
+                x = 3170,
+                y = 1771,
+                width  = dpi(640),
+                height = dpi(360),
+                sticky = true,
+                focusable = false,
             },
+        },
+        {
+            rule = {
+                class = "Brave-browser",
+                role  = "pop-up",
+                type  = "normal",
+            },
+            properties = {
+                floating = true,
+                ontop = true,
+                focusable = false,
+                x = 3500,
+                y = 1568,
+            }
         },
 
         -- All clients will match this rule.
@@ -108,6 +135,8 @@ return function(clientkeys, clientbuttons)
                     "Xdg-desktop-portal-gtk",
                     "xtightvncviewer",
                     "Zenity",
+                    "control_panel",
+                    "Control_panel",
                 },
 
                 -- Note that the name property shown in xprop might be set slightly after creation of the client
@@ -115,17 +144,21 @@ return function(clientkeys, clientbuttons)
                 name = {
                     "Event Tester",  -- xev.
                     "Choose Application",
+                    "Export Image",
                 },
                 role = {
                     "Dialog",        -- Firefox Download dialog.
                     "AlarmWindow",   -- Thunderbird's calendar.
                     "ConfigManager", -- Thunderbird's about:config.
                     "pop-up",        -- e.g. Google Chrome's (detached) Developer Tools.
+                },
+                type = {
+                    "[Dd]ialog",
                 }
             },
             properties = {
                 floating  = true,
-                placement = awful.placement.centered
+                placement = awful.placement.centered,
             }
         },
 

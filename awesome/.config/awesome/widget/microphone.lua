@@ -20,6 +20,8 @@ local refresh = function(widget)
     local callback
     callback = function()
         awful.spawn.easy_async('pa-cli source get-volume', function(stdout, stderr)
+            print("Refreshing microphone volume to: " .. stdout)
+
             if stderr ~= '' then
                 print('Error while getting microphone volume')
                 print('Retrying in 15 secs')
@@ -60,6 +62,7 @@ local new = function(context)
 
     context:on('microphone::changed', refresh(widget))
     context:on('context::loaded', refresh(widget))
+    context:on('source:changed', refresh(widget))
 
     return widget
 end

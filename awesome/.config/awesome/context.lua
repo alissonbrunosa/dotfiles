@@ -8,11 +8,11 @@ return {
     table.insert(self.listeners[event], callback)
   end,
 
-  emit = function(self, event)
+  emit = function(self, event, ...)
     local listeners = self.listeners[event]
     if listeners then
       for _, callback in ipairs(listeners) do
-        callback()
+        callback(...)
       end
     end
   end,

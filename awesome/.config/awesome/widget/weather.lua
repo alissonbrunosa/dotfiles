@@ -163,7 +163,7 @@ function worker(context)
         layout = wibox.layout.fixed.vertical,
     }
 
-    local url = 'https://api.openweathermap.org/data/2.5/onecall?' .. to_query(context.user.weather_api)
+    local url = 'https://api.openweathermap.org/data/3.0/onecall?' .. to_query(context.user.weather_api)
 
     watch(string.format(GET_FORECAST_CMD, url), 600, function(_, stdout, stderr)
         if stderr == '' then

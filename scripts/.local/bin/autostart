@@ -8,3 +8,4 @@ _autostart() {
 }
 
 _autostart xscreensaver -nosplash
+# _autostart abstract

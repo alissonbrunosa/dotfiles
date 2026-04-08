@@ -1,4 +1,9 @@
 local awful = require('awful')
+local client = require('awful.client')
+
+local capi = {
+  client = client,
+}
 
 return function(context)
   return {
@@ -26,8 +31,8 @@ return function(context)
     end,
 
     mute_microphone = function(callback)
-        awful.spawn('pa-cli source mute')
-        context:emit('microphone::muted')
+      awful.spawn('pa-cli source mute')
+      context:emit('microphone::muted')
     end,
 
     inc_brightness = function()
@@ -38,16 +43,34 @@ return function(context)
       awful.spawn('light -U 10')
     end,
 
-    take_screnshot = function(type)
+    take_screnshot = function(command)
       return function()
-        -- TODO: implement this
+        awful.spawn.with_shell('flameshot ' .. command .. ' -c -p $HOME/Pictures/Screenshots')
       end
     end,
 
     focus_client_at = function(idx)
       return function()
-        awful.client.focus.byidx(idx)
+        local target = client.next(idx)
+        if not target then
+          return
+        end
+
+        target:emit_signal("request::activate", "client.focus.byidx",{ raise=true })
+        if target.minimized or target.fullscreen then
+          return
+        end
+
+        local g = target:geometry()
+        mouse.coords {
+          x = g.x + g.width / 2,
+          y = g.y + g.height / 2
+        }
       end
+    end,
+
+    open_music_application = function()
+      awful.spawn('flatpak run com.spotify.Client')
     end,
   }
 end

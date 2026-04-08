@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-export EDITOR="vimx"
+export EDITOR="nvim"
 
 # Go
 export GOPATH="$HOME/Code/Go"
@@ -36,6 +36,7 @@ export KUBECONFIG=$HOME/.kube/config:$HOME/.kube/development_config:$KUBECONFIG
 
 # Fzf
 export FZF_DEFAULT_COMMAND="rg --files"
+export FZF_DEFAULT_OPTS='--border double --style full --preview'
 
 # History
 # http://unix.stackexchange.com/a/48113

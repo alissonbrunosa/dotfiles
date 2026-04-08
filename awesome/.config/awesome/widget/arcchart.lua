@@ -21,7 +21,7 @@ function obj:set_value(value)
     end
 
     self._private.current_value = value
-    label.text = value
+    label.text = value .. '%'
     arc.colors = self._private.pick_colour(value)
     arc:set_value(value)
 end

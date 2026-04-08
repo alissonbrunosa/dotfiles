@@ -3,6 +3,7 @@ local awful        = require('awful')
 local timer        = require('gears.timer')
 local beautiful    = require('beautiful')
 local wibox        = require('wibox')
+local optionpane   = require('widget.optionpane')
 
 local obj = { mt = {} }
 
@@ -34,7 +35,17 @@ local refresh = function(widget)
     return callback
 end
 
+local sinks
+local full_refresh_widget = function(context)
+    if not sinks then
+        sinks = optionpane(context)
+    end
+
+    return sinks.toggle
+end
+
 local new = function(context)
+
     local widget = require('widget.arcchart')({
         inner_text = 'Volume',
 
@@ -53,6 +64,7 @@ local new = function(context)
 
     widget:buttons(
         awful.util.table.join(
+            awful.button({}, 1, full_refresh_widget(context)),
             awful.button({}, 4, adjust_volume(widget, 2)),
             awful.button({}, 5, adjust_volume(widget, -2))
         )
@@ -60,6 +72,7 @@ local new = function(context)
 
     context:on('volume::changed', refresh(widget))
     context:on('context::loaded', refresh(widget))
+    context:on('sink:changed', refresh(widget))
 
     return widget
 end

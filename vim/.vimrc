@@ -1,7 +1,7 @@
 call plug#begin()
 " Tools
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
-Plug 'junegunn/fzf'
 
 Plug 'tpope/vim-endwise'
 Plug 'tpope/vim-rhubarb'
@@ -16,7 +16,6 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " Themes
 Plug 'vim-airline/vim-airline'
 Plug 'catppuccin/vim', { 'as': 'catppuccin' }
-Plug 'alissonbrunosa/black'
 call plug#end()
 
 syntax on
@@ -34,7 +33,7 @@ set incsearch
 set noshowmode
 set list
 set showcmd
-set listchars=eol:⏎,tab:···,trail:·,extends:>,precedes:<
+set listchars=eol:↵,tab:···,trail:·,extends:>,precedes:<
 set showbreak=↪\
 set ignorecase
 set smartcase

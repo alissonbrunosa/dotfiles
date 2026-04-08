@@ -55,7 +55,7 @@ return function()
             awful.spawn('systemctl poweroff')
         end),
 
-        create_action('', awesome.quit),
+        create_action('', function() awesome.quit() end),
 
         spacing = dpi(7),
         widget  = wibox.layout.fixed.horizontal

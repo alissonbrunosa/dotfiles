@@ -10,19 +10,24 @@ return function()
         wibox.widget.base.empty_widget(),
         forced_width  = dpi(12),
         forced_height = dpi(12),
-        shape         = gears.circle,
         widget        = wibox.container.background,
     }
 
     local function vpn(widget, stdout, stderr)
-        if(stdout == '' or stdout == nil or string.find(stdout, 'does not exist')) then
+        if stdout == '' or stdout == nil or string.find(stdout, 'does not exist') then
             circle.bg = beautiful.one_quarter
-        else
-            circle.bg = beautiful.full
+            return
         end
+
+        if string.find(stdout, 'Not Running')  then
+            circle.bg = beautiful.one_quarter
+            return
+        end
+
+        circle.bg = beautiful.full
     end
 
-    watch('ip addr show tun0', 2, vpn, vpn_widget)
+    watch('forticlient vpn status', 2, vpn, vpn_widget)
 
     return circle
 end

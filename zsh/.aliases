@@ -4,5 +4,6 @@ alias zshconfig="vim ~/.zshrc"
 alias ohmyzsh="vim ~/.oh-my-zsh"
 alias python="python3.11"
 alias commit='git commit -m "$(curl -s whatthecommit.com/index.txt)"'
+alias ":q"="exit"
 
 

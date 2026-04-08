@@ -6,104 +6,97 @@ local dpi        = xresources.apply_dpi
 
 local obj = { mt = {} }
 
-local create_button = function(text, colour)
-    return wibox.widget {
+local create_row = function(device, context)
+    local row = wibox.widget {
         {
             {
-                text = text,
-                align = 'center',
-                widget = wibox.widget.textbox,
+                text = device.name,
+                align = 'left',
+                font   = beautiful.font_extra_bold .. ' 12',
+                widget = wibox.widget.textbox
             },
-            left = dpi(20),
-            right = dpi(20),
-            top = dpi(10),
-            bottom = dpi(10),
-            widget = wibox.container.margin,
+            margins = 10,
+            layout = wibox.container.margin
         },
-        id = text,
-        bg = colour,
-        widget = wibox.container.background,
+        bg = beautiful.bg_normal,
+        widget = wibox.container.background
     }
-end
 
-local create_title = function(title)
-    return wibox.widget {
-        {
-            {
-                text   = title,
-                font   = beautiful.font_name .. ' 16',
-                align  = 'center',
-                widget = wibox.widget.textbox,
-            },
-            top = dpi(10),
-            bottom = dpi(10),
-            widget = wibox.container.margin,
-        },
-        fg     = beautiful.fg_title,
-        forced_height = dpi(10),
-        widget = wibox.container.background,
-    }
+    row:connect_signal("mouse::enter", function(c)
+        c:set_fg(beautiful.fg_focus)
+        c:set_bg(beautiful.bg_focus)
+    end)
+
+    row:connect_signal("mouse::leave", function(c)
+        c:set_fg(beautiful.fg_normal)
+        c:set_bg(beautiful.bg_normal)
+    end)
+
+    local old_cursor, old_wibox
+    row:connect_signal("mouse::enter", function()
+        local wb = mouse.current_wibox
+        old_cursor, old_wibox = wb.cursor, wb
+        wb.cursor = "hand1"
+    end)
+    row:connect_signal("mouse::leave", function()
+        if old_wibox then
+            old_wibox.cursor = old_cursor
+            old_wibox = nil
+        end
+    end)
+
+    row:connect_signal("button::press", function()
+        context:emit('sink:select', device)
+    end)
+
+    return row
 end
 
 local create_body = function(body)
     return wibox.widget {
-        {
-            id     = 'body',
-            text   = body,
-            font   = beautiful.font_name .. ' 10',
-            align  = 'center',
-            widget = wibox.widget.textbox,
-        },
+        body,
         bg     = beautiful.bg_widget,
         widget = wibox.container.background,
     }
 end
 
-local new = function(args)
-    local args = args or {}
-    local title = args.title or 'This is a Option Pane'
-    local body  = args.title or 'Use body arg to add text to this section'
+local new = function(context)
+    local rows = { layout = wibox.layout.fixed.vertical }
+    table.insert(rows, create_row({ name = 'Navi 31 HDMI/DP Audio Digital Stereo (HDMI 2)' }, context))
+    table.insert(rows, create_row({ name = 'RØDE PodMic USB Analog Stereo' }, context))
 
     local pane = wibox.widget {
-        {
-            create_title(title),
-            create_body(body),
-            {
-                {
-                    nil,
-                    {
-                        create_button('Yes', beautiful.bg_urgent),
-                        create_button('No', beautiful.background3),
-                        spacing = dpi(10),
-                        forced_height = dpi(100),
-                        widget = wibox.layout.fixed.horizontal,
-                    },
-                    nil,
-                    expand = 'none',
-                    widget = wibox.layout.align.horizontal,
-                },
-                margins = dpi(10),
-                widget  = wibox.container.margin,
-            },
-            widget = wibox.layout.flex.vertical,
-        },
-        forced_width = dpi(300),
+        create_body(rows),
+        minimum_width = dpi(300),
         widget = wibox.container.background,
     }
 
     local dialog = awful.popup {
-        widget = pane,
-        ontop = true,
+        widget        = pane,
+        ontop         = true,
+        visible       = false,
         minimum_width = dpi(450),
-        border_width = 1,
-        border_color = beautiful.bg_focus,
-        screen = awful.screen.focused(),
-        placement = function(c)
+        border_width  = 1,
+        border_color  = beautiful.bg_focus,
+        screen        = awful.screen.focused(),
+        placement     = function(c)
             awful.placement.centered(c, { honor_workarea = true })
         end,
     }
 
-    return dialog
+    function pane:toggle()
+        if dialog.visible then
+            dialog.visible = not dialog.visible
+        else
+            dialog.visible = true
+        end
+    end
+
+    context:on('sink:select', function(device)
+        dialog.visible = false
+    end)
+
+    return pane
 end
 
 function obj.mt:__call(...)
