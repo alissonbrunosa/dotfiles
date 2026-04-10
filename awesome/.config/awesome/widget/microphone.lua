@@ -24,8 +24,8 @@ local refresh = function(widget)
 
             if stderr ~= '' then
                 print('Error while getting microphone volume')
-                print('Retrying in 15 secs')
-                timer.start_new(15, callback)
+                print('Retrying in 10 secs')
+                timer.start_new(10, callback)
                 return
             end
 

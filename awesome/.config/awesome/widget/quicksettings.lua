@@ -32,14 +32,14 @@ local function worker(context)
     local items = {
         {
             icon    = '',
-            font    = beautiful.icon_font('Regular'),
+            font    = beautiful.icon_font('Regular', 15),
             command = function()
                 awful.spawn.spawn('xdg-screensaver lock')
             end,
         },
         {
             icon    = '',
-            font    = beautiful.icon_font('Regular'),
+            font    = beautiful.icon_font('Regular', 15),
             command = configure_layout(awful.layout.suit.max),
 
             init_listeners = function(widget)
@@ -50,7 +50,7 @@ local function worker(context)
         },
         {
             icon    = '',
-            font    = beautiful.icon_font('Regular'),
+            font    = beautiful.icon_font('Regular', 15),
             command = configure_layout(awful.layout.suit.tile.left),
 
             init_listeners = function(widget)
@@ -61,7 +61,7 @@ local function worker(context)
         },
         {
             icon    = '',
-            font    = beautiful.icon_font('Regular'),
+            font    = beautiful.icon_font('Regular', 15),
             command = configure_layout(awful.layout.suit.floating),
 
             init_listeners = function(widget)
@@ -72,7 +72,7 @@ local function worker(context)
         },
         {
             icon    = '',
-            font    = beautiful.icon_font('Regular'),
+            font    = beautiful.icon_font('Regular', 15),
 
             init_listeners = function(widget)
                 awful.spawn.easy_async_with_shell("rfkill -J", function(stdout, stderr)
@@ -110,7 +110,7 @@ local function worker(context)
         },
         {
             icon    = '',
-            font    = beautiful.icon_font('Regular'),
+            font    = beautiful.icon_font('Regular', 15),
 
             command = function(widget)
                 local powered = widget:is_on()
@@ -138,12 +138,12 @@ local function worker(context)
         },
         {
             icon = '',
-            font = beautiful.icon_font('Solid'),
+            font = beautiful.icon_font('Solid', 15),
             command = function() end,
         },
         {
             icon = '',
-            font = beautiful.icon_font('Solid'),
+            font = beautiful.icon_font('Regular', 15),
 
             init_listeners = function(widget)
                 context:on('context::loaded', function()
@@ -173,7 +173,7 @@ local function worker(context)
         },
         {
             icon = '',
-            font = beautiful.icon_font('Solid'),
+            font = beautiful.icon_font('Solid', 15),
 
             init_listeners = function(widget)
                 local callback
@@ -181,8 +181,8 @@ local function worker(context)
                     awful.spawn.easy_async("pa-cli sink is-muted", function(stdout, stderr)
                         if stderr ~= '' then
                             print('Error while getting speakers state')
-                            print('Retrying in 15 secs')
-                            timer.start_new(15, callback)
+                            print('Retrying in 10 secs')
+                            timer.start_new(10, callback)
                             return
                         end
 
@@ -211,7 +211,7 @@ local function worker(context)
         },
         {
             icon    = '',
-            font    = beautiful.icon_font('Solid'),
+            font    = beautiful.icon_font('Solid', 15),
 
             init_listeners = function(widget)
                 local callback
@@ -220,8 +220,8 @@ local function worker(context)
                     awful.spawn.easy_async("pa-cli source is-muted", function(stdout, stderr)
                         if stderr ~= '' then
                             print('Error while getting microphone state')
-                            print('Retrying in 15 secs')
-                            timer.start_new(15, callback)
+                            print('Retrying in 10 secs')
+                            timer.start_new(10, callback)
                             return
                         end
 
@@ -250,14 +250,14 @@ local function worker(context)
         },
         {
             icon    = '',
-            font    = beautiful.icon_font('Solid'),
+            font    = beautiful.icon_font('Solid', 15),
             command = function(widget)
-                awful.spawn.with_shell('scrot $HOME/Pictures/Screenshots/%d-%b-%Y-%H%M%S.png')
+                awful.spawn.with_shell('flameshot screen -c -p $HOME/Pictures/Screenshots')
             end,
         },
         {
             icon    = '',
-            font    = beautiful.icon_font('Solid'),
+            font    = beautiful.icon_font('Solid', 15),
             command = function()
                 awful.spawn('systemctl reboot')
             end,

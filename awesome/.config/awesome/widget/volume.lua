@@ -23,8 +23,8 @@ local refresh = function(widget)
         awful.spawn.easy_async('pa-cli sink get-volume', function(stdout, stderr)
             if stderr ~= '' then
                 print('Error while getting speaker volume')
-                print('Retrying in 15 secs')
-                timer.start_new(15, callback)
+                print('Retrying in 10 secs')
+                timer.start_new(10, callback)
                 return
             end
 
