@@ -5,6 +5,7 @@ mouse_mode false
 default_mode "locked"
 default_layout "compact"
 session_serialization false
+show_startup_tips false
 
 keybinds {
     shared_except "locked" {
