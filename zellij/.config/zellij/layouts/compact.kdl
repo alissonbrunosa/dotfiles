@@ -1,0 +1,12 @@
+layout {
+    pane
+    pane size=1 borderless=true {
+        plugin location="zellij:compact-bar"
+    }
+
+    swap_floating_layout name="floating panel" {
+        floating_panes max_panes=1 {
+            pane { x "5%"; y "2%"; width "90%"; height "90%"; }
+        }
+    }
+}

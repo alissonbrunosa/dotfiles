@@ -1,0 +1,33 @@
+theme "tokyo-night-dark"
+simplified_ui true
+pane_frames true
+mouse_mode false
+default_mode "locked"
+default_layout "compact"
+session_serialization false
+
+keybinds {
+    shared_except "locked" {
+        bind "Esc" { SwitchToMode "Locked"; }
+    }
+
+    locked {
+        bind "Alt w" { ToggleFloatingPanes; }
+        bind "Alt h" "Right" { MoveFocus "Right"; }
+        bind "Alt j" "Down" { MoveFocus "Down"; }
+        bind "Alt k" "Up" { MoveFocus "Up"; }
+        bind "Alt l" "Left" { MoveFocus "Left"; }
+    }
+
+    shared {
+        bind "Alt 1" { GoToTab 1; }
+        bind "Alt 2" { GoToTab 2; }
+        bind "Alt 3" { GoToTab 3; }
+        bind "Alt 4" { GoToTab 4; }
+        bind "Alt 5" { GoToTab 5; }
+        bind "Alt 6" { GoToTab 6; }
+        bind "Alt 7" { GoToTab 7; }
+        bind "Alt 8" { GoToTab 8; }
+        bind "Alt 9" { GoToTab 9; }
+    }
+}
