@@ -18,9 +18,29 @@ theme.font_name       = 'Iosevka Medium'
 theme.font_extra_bold = 'Iosevka Extrabold'
 theme.font            = theme.font_name .. ' 9.5'
 
-theme.icon_font  = function(type)
-  return 'Font Awesome 6 Free ' .. type .. ' 14'
-end
+theme.icon_font =  setmetatable({ original = 'Font Awesome 6 Free' }, {
+    __tostring = function(self)
+        return self.original
+    end,
+
+    __call = function(self, type, size)
+        local font = self.original
+
+        if type then
+            font = font .. " " .. type
+        end
+
+        if size then
+            font = font .. " " .. size
+        end
+
+        return font
+    end,
+
+    __concat = function(a, b)
+        return tostring(a) .. tostring(b)
+    end
+})
 
 theme.weather_icon_font = 'Weather Icons'
 
@@ -60,7 +80,6 @@ theme.taglist_bg_focus    = theme.bg_focus
 theme.taglist_fg_urgent   = theme.fg_normal
 theme.taglist_bg_urgent   = theme.one_quarter
 
--- Variables set for theming notifications:
 theme.notification_bg = theme.bg_normal
 theme.notification_fg = theme.fg_normal
 theme.notification_font = theme.font
@@ -69,15 +88,10 @@ theme.notification_max_width = dpi(300)
 theme.notification_border_color = '#88c0d0'
 theme.notification_icon_size = dpi(64)
 
--- Variables set for theming the menu:
--- menu_[bg|fg]_[normal|focus]
--- menu_[border_color|border_width]
 theme.menu_submenu_icon = themes_path..'default/submenu.png'
 theme.menu_height = dpi(15)
 theme.menu_width  = dpi(100)
 
---theme.wallpaper = config_path .. 'assets/wallpaper.png'
---theme.wallpaper = themes_path .. 'default/background.png'
 theme.wallpaper = config_path .. 'assets/ship.jpg'
 
 return theme

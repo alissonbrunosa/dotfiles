@@ -139,7 +139,7 @@ local function worker(context)
 
     function home_widget:toggle()
         if popup.visible then
-            context:emit('calendar:reset')
+            context:emit('info_panel::hide')
             popup.visible = not popup.visible
         else
             context:emit('popup:show', popup)
