@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [[ -n "$(command -v zellij)" && -z "$ZELLIJ" && -n "$DISPLAY" && -o interactive ]]; then
+    zellij attach Main --create
+fi
