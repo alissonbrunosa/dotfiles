@@ -1,11 +1,10 @@
 #!/bin/sh
 
-_autostart() {
-  if ! pgrep -f "$1" ;
-  then
-    "$@"&
+run() {
+  if ! pgrep -x "$1" > /dev/null; then
+    "$@" &
   fi
 }
 
-_autostart xscreensaver -nosplash
-# _autostart abstract
+run xscreensaver -nosplash
+run picom
