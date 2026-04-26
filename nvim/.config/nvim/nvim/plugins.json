@@ -1,0 +1,59 @@
+[
+  {
+    "author": "tpope",
+    "repo": "vim-fugitive"
+  },
+  {
+    "author": "tpope",
+    "repo": "vim-endwise"
+  },
+  {
+    "author": "tpope",
+    "repo": "vim-surround"
+  },
+  {
+    "author": "tpope",
+    "repo": "vim-rhubarb"
+  },
+  {
+    "author": "airblade",
+    "repo": "vim-gitgutter"
+  },
+  {
+    "author": "nvim-lualine",
+    "repo": "lualine.nvim"
+  },
+  {
+    "author": "nvim-treesitter",
+    "repo": "nvim-treesitter"
+  },
+  {
+    "author": "nvim-lua",
+    "repo": "plenary.nvim"
+  },
+  {
+    "author": "alissonbrunosa",
+    "repo": "telescope.nvim",
+    "branch": "improve-center-strategy"
+  },
+  {
+    "author": "alissonbrunosa",
+    "repo": "gh.nvim"
+  },
+  {
+    "author": "fatih",
+    "repo": "vim-go"
+  },
+  {
+    "author": "smoka7",
+    "repo": "hop.nvim"
+  },
+  {
+    "author": "github",
+    "repo": "copilot.vim"
+  },
+  {
+      "author":"catppuccin",
+      "repo": "nvim"
+  }
+]
