@@ -1,0 +1,2 @@
+[[ -n "$(command -v direnv)" ]] && eval "$(direnv hook zsh)"
+[[ -n "$(command -v atuin)" ]] && eval "$(atuin init zsh)"
