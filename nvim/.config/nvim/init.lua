@@ -1,5 +1,3 @@
-local lualine_theme = require('lualine-black')
---
 -- Basic settings
 vim.opt.syntax = 'enable'
 vim.opt.number = true
