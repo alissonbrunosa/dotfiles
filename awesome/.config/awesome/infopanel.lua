@@ -120,6 +120,7 @@ local function worker(context)
         shape        = shape.rounded_rect,
         offset       = { y = dpi(5) },
         widget       = create_panel(context),
+        type         = 'utility'
     }
 
     local home_widget = wibox.widget {

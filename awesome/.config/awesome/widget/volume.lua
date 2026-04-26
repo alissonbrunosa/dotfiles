@@ -3,7 +3,6 @@ local awful        = require('awful')
 local timer        = require('gears.timer')
 local beautiful    = require('beautiful')
 local wibox        = require('wibox')
-local optionpane   = require('widget.optionpane')
 
 local obj = { mt = {} }
 
@@ -17,12 +16,13 @@ local adjust_volume = function(widget, n)
   end
 end
 
-local refresh = function(widget)
+local refresh = function(widget, device)
     local callback
     callback = function()
         awful.spawn.easy_async('pa-cli sink get-volume', function(stdout, stderr)
             if stderr ~= '' then
                 print('Error while getting speaker volume')
+                print(stderr)
                 print('Retrying in 10 secs')
                 timer.start_new(10, callback)
                 return
@@ -35,17 +35,7 @@ local refresh = function(widget)
     return callback
 end
 
-local sinks
-local full_refresh_widget = function(context)
-    if not sinks then
-        sinks = optionpane(context)
-    end
-
-    return sinks.toggle
-end
-
-local new = function(context)
-
+local new = function(context, device)
     local widget = require('widget.arcchart')({
         inner_text = 'Volume',
 
@@ -64,15 +54,16 @@ local new = function(context)
 
     widget:buttons(
         awful.util.table.join(
-            awful.button({}, 1, full_refresh_widget(context)),
             awful.button({}, 4, adjust_volume(widget, 2)),
             awful.button({}, 5, adjust_volume(widget, -2))
         )
     )
 
-    context:on('volume::changed', refresh(widget))
-    context:on('context::loaded', refresh(widget))
-    context:on('sink:changed', refresh(widget))
+    local refresh_func = refresh(widget, device)
+
+    context:on('volume::changed', refresh_func)
+    context:on('context::loaded', refresh_func)
+    context:on('sink::changed', refresh_func)
 
     return widget
 end

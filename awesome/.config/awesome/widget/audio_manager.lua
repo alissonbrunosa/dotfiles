@@ -103,7 +103,7 @@ local function create_row_widget(context, device_info, is_default)
     awful.util.table.join(
       awful.button({}, 1, function()
         awful.spawn.easy_async('pa-cli ' .. device_info.type .. ' set-default ' .. device_info.name, function()
-          context:emit(device_info.type .. ':changed')
+          context:emit(device_info.type .. '::changed')
         end)
       end)
     )
@@ -139,7 +139,9 @@ local create_panel = function(context, device)
             vbox:add(row)
           end
 
-          callback()
+          if callback then
+            callback()
+          end
         end)
       end)
     end
@@ -158,6 +160,7 @@ local function builder(context, device)
     shape        = shape.rounded_rect,
     offset       = { y = dpi(5) },
     widget       = main_widget,
+    type         = 'utility'
   }
 
   popup:connect_signal("mouse::leave", function()
@@ -183,21 +186,23 @@ local function builder(context, device)
     if popup.visible then
       popup.visible = not popup.visible
     else
-      context:emit('popup:show', popup)
+      context:emit('popup::show', popup)
       main_widget:refresh(function()
         popup:move_next_to(mouse.current_widget_geometry)
       end)
     end
   end
 
-  context:on('popup:show', function(obj)
+  context:on('popup::show', function(obj)
     if obj ~= popup then
       popup.visible = false
     end
   end)
 
-  context:on(device .. ':changed', function()
-    settings_widget:toggle()
+  context:on(device .. '::changed', function()
+    if popup.visible then
+      main_widget:refresh()
+    end
   end)
 
   hand_cursor(settings_widget)

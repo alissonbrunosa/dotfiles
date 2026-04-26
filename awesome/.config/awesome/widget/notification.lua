@@ -74,7 +74,7 @@ function obj.init()
   naughty.connect_signal("request::display", function(n)
     local title_widget = wibox.widget {
       {
-        text   = n.title or "Notification",
+        markup = n.title or "Notification",
         font   = beautiful.font_name .. " Bold 12",
         widget = wibox.widget.textbox,
       },
@@ -85,7 +85,7 @@ function obj.init()
     local message_widget = wibox.widget {
       {
         {
-          text   = n.message or "",
+          markup = n.message or "",
           font   = beautiful.font_name .. " 11",
           wrap   = "word",
           align  = "left",
